@@ -9,15 +9,30 @@
                 <p class="text-black-50 mb-4">Please login your account</p>
             </div>
             <form>
+
+                <?php if (isset($_SESSION['sucess'])) { ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?php echo $_SESSION['sucess']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php unset($_SESSION['sucess']);
+                } ?>
+
+                <?php if (isset($_SESSION['error'])) { ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?php echo $_SESSION['error']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php unset($_SESSION['error']);
+                } ?>
+
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" name="username" placeholder="Enter your username"
-                        required>
+                    <input type="text" class="form-control" name="username" placeholder="Enter your username">
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Enter your password"
-                        required>
+                    <input type="password" class="form-control" name="password" placeholder="Enter your password">
                 </div>
                 <div class="mb-3 d-flex align-items-end justify-content-end">
                     <a href="#" class="color-dark-blue">Forgot your password?</a>
@@ -30,7 +45,7 @@
                 <i class="fa-brands fa-google fs-3"></i> Continue with google
             </button>
             <div class="text-center mt-4">
-                <p class="text-black-50">Didn’t have an account?<a href="/Sistema de Chamados/public/register.php" class="color-dark-blue">
+                <p class="text-black-50">Didn’t have an account?<a href="/Sistema-de-Chamados/public/register.php" class="color-dark-blue">
                         Sign In?</a></p>
             </div>
         </div>
