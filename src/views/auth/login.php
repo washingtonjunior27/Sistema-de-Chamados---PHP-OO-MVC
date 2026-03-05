@@ -6,9 +6,9 @@
         <div class="container-right flex-fill">
             <div class="text-center">
                 <h1 class="fw-bold mb-4">LOGIN</h1>
-                <p class="text-black-50 mb-4">Please login your account</p>
+                <p class="text-black-50 mb-4">Por favor informe seu login e senha</p>
             </div>
-            <form>
+            <form action="/sistema-de-chamados/public/index.php" method="POST">
 
                 <?php if (isset($_SESSION['sucess'])) { ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -27,26 +27,26 @@
                 } ?>
 
                 <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" name="username" placeholder="Enter your username">
+                    <label for="username" class="form-label">Nome de Usuário</label>
+                    <input type="text" class="form-control" name="username" placeholder="Digite seu nome de usuário (Login)">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Enter your password">
+                    <label for="exampleInputPassword1" class="form-label">Senha</label>
+                    <input type="password" class="form-control" name="password" placeholder="Digite sua senha">
                 </div>
                 <div class="mb-3 d-flex align-items-end justify-content-end">
-                    <a href="#" class="color-dark-blue">Forgot your password?</a>
+                    <a href="#" class="color-dark-blue">Esqueceu sua senha?</a>
                 </div>
-                <button type="submit" class="btn bg-dark-blue w-100 rounded-5 py-2 text-light">Sign In</button>
+                <button type="submit" class="btn bg-dark-blue w-100 rounded-5 py-2 text-light">Entrar</button>
             </form>
-            <h4 id="login-separate" class="d-flex align-items-center justify-content-center gap-2 my-4">OR</h4>
+            <h4 id="login-separate" class="d-flex align-items-center justify-content-center gap-2 my-4">OU</h4>
             <button type="submit"
                 class="btn bg-dark-blue w-100 rounded-5 py-2 text-light d-flex align-items-center justify-content-center gap-2">
-                <i class="fa-brands fa-google fs-3"></i> Continue with google
+                <i class="fa-brands fa-google fs-3"></i> Continuar com google
             </button>
             <div class="text-center mt-4">
-                <p class="text-black-50">Didn’t have an account?<a href="/Sistema-de-Chamados/public/register.php" class="color-dark-blue">
-                        Sign In?</a></p>
+                <p class="text-black-50">Não possui uma conta?<a href="/Sistema-de-Chamados/public/register.php" class="color-dark-blue">
+                        Cadastre-se?</a></p>
             </div>
         </div>
     </div>

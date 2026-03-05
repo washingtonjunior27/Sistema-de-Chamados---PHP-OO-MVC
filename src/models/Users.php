@@ -8,7 +8,7 @@ class Users
     private string $password;
     private string $email;
     private string $role;
-    private int $is_active;
+    private int $status;
 
     /**
      * Get the value of id
@@ -131,21 +131,21 @@ class Users
     }
 
     /**
-     * Get the value of is_active
+     * Get the value of status
      */
-    public function getIs_active()
+    public function getStatus()
     {
-        return $this->is_active;
+        return $this->status;
     }
 
     /**
-     * Set the value of is_active
+     * Set the value of status
      *
      * @return  self
      */
-    public function setIs_active($is_active)
+    public function setStatus($status)
     {
-        $this->is_active = $is_active;
+        $this->status = $status;
 
         return $this;
     }
