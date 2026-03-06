@@ -30,6 +30,27 @@ class UsersRepository
         ]);
     }
 
+    // SQL PARA BUSCAR TODOS OS USUARIOS
+    public function ReadUserRepository()
+    {
+        $sql = "SELECT * FROM users";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // SQL PARA BUSCAR USUARIOS DIGITADOS NA BARRA DE BUSCA
+    public function SearchUserRepository($search)
+    {
+        $sql = "SELECT * FROM users 
+                WHERE id LIKE :search OR name LIKE :search OR username LIKE :search 
+                OR email LIKE :search OR role LIKE :search OR status LIKE :search";
+        $stmt = $this->pdo->prepare($sql);
+        $searchResult = "%" . $search . "%";
+        $stmt->execute(["search" => $searchResult]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // SQL PARA ATUALIZAR USUARIO
     public function UpdateUserRepository(Users $user)
     {
@@ -44,12 +65,15 @@ class UsersRepository
         ]);
     }
 
-    //SQL PARA DELETAR USUARIO
-    public function DeleteUserRepository($id)
+    //SQL PARA DESABILITAR USUARIO
+    public function StatusUserRepository($id, $num)
     {
-        $sql = "DELETE FROM users WHERE id = :id";
+        $sql = "UPDATE users SET status = :status WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([":id" => $id]);
+        $stmt->execute([
+            ":status" => $num,
+            ":id" => $id
+        ]);
     }
 
     // SQL PARA BUSCAR USUARIO UNICO. $COLUMN É DIGITADO MANUALMENTE NOS CONTROLERS. SEM RISCO DE SQL INJECTION. $DATA RECEBE DADOS.

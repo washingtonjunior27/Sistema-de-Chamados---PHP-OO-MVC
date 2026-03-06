@@ -35,6 +35,21 @@ class UsersControler
         exit;
     }
 
+    public function ReadUserController()
+    {
+        $search = trim($_GET['search'] ?? "");
+        // ARMAZENA DADOS DO BANCO DE DADOS COM REPOSITORY
+        $userRepository = new UsersRepository();
+
+        if ($search) {
+            $users = $userRepository->SearchUserRepository($search);
+        } else {
+            $users = $userRepository->ReadUserRepository();
+        }
+
+        require __DIR__ . "/../views/app/users.php";
+    }
+
     public function UpdateUserControler()
     {
         // INSTANCIA DE MODEL USERS
@@ -65,18 +80,36 @@ class UsersControler
         exit;
     }
 
-    public function DeleteUserControler()
+    public function StatusUserControler()
     {
         $id = $_POST['user_id'];
+        $action = $_POST['action'];
 
         $userRepository = new UsersRepository();
-        $userRepository->DeleteUserRepository($id);
 
-        $_SESSION['sucess'] = "Usuário excluido com sucesso!";
-        unset($_SESSION['user']);
-        header("location: /sistema-de-chamados/public/index.php");
-        exit;
+        if ($action === "enableUserAdmin") {
+            $userRepository->StatusUserRepository($id, 1);
+
+            $_SESSION['sucess'] = "Usuário reativado com sucesso!";
+            header("location: /sistema-de-chamados/public/users.php");
+            exit;
+        } else {
+            $userRepository->StatusUserRepository($id, 2);
+
+            if ($_SESSION['user']['role'] === "admin") {
+                $_SESSION['sucess'] = "Usuário desativado com sucesso!";
+                header("location: /sistema-de-chamados/public/users.php");
+                exit;
+            }
+
+            $_SESSION['sucess'] = "Usuário desativado com sucesso!";
+            unset($_SESSION['user']);
+            header("location: /sistema-de-chamados/public/index.php");
+            exit;
+        }
     }
+
+    public function EnableUserControler() {}
 
     public function TrackUserUpdate()
     {

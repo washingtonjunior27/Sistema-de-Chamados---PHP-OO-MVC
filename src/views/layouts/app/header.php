@@ -17,7 +17,7 @@
 
                         <?php if ($_SESSION['user']['role'] === "admin") { ?>
                             <li class="nav-item">
-                                <a class="nav-link text-light" href="#">Usuarios</a>
+                                <a class="nav-link text-light" href="users.php">Usuarios</a>
                             </li>
                         <?php } ?>
 

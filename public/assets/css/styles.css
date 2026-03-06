@@ -21,6 +21,12 @@
 .bg-dark-blue{
     background-color: var(--dark-blue) !important;
 }
+.bg-light-blue{
+    background-color: var(--light-blue) !important;
+}
+.border-light-blue{
+    border: 1px solid var(--light-blue) !important;
+}
 #login-separate::after{
     content: '';
     display: block;

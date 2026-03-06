@@ -1,4 +1,4 @@
-<?php require __DIR__ . "/../app/deleteUser.php" ?>
+<?php require __DIR__ . "/../auth/disableUser.php" ?>
 
 <div class="container d-flex flex-fill justify-content-between align-items-center rounded-3 gap-lg-2 p-4">
     <div class="container-right flex-fill">
@@ -42,7 +42,7 @@
 
         <!-- Button trigger modal Delete -->
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Excluir conta
+            Desativar conta
         </button>
     </div>
 </div>

@@ -7,24 +7,24 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
+if ($_SESSION['user']['role'] != "admin") {
+    header("location: home.php");
+    exit;
+}
+
 require __DIR__ . "/../src/views/layouts/auth/headerLogin.php";
 require __DIR__ . "/../src/views/layouts/app/header.php";
+require __DIR__ . "/../src/controllers/UsersControler.php";
 
-require_once __DIR__ . "/../src/controllers/UsersControler.php";
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if ($_POST['action'] === "updateUser") {
-        $userControler = new UsersControler();
-        $userControler->UpdateUserControler();
-    }
-
-    if ($_POST['action'] === "disableUser") {
-        $userControler = new UsersControler();
-        $userControler->DisableUserControler();
-    }
+    $userControler = new UsersControler();
+    $userControler->StatusUserControler();
 } else {
     $userControler = new UsersControler();
-    $userControler->TrackUserUpdate();
+    $userControler->ReadUserController();
 }
+
+
 
 require __DIR__ . "/../src/views/layouts/app/footer.php";
 require __DIR__ . "/../src/views/layouts/auth/footerLogin.php";
