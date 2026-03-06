@@ -44,6 +44,14 @@ class UsersRepository
         ]);
     }
 
+    //SQL PARA DELETAR USUARIO
+    public function DeleteUserRepository($id)
+    {
+        $sql = "DELETE FROM users WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([":id" => $id]);
+    }
+
     // SQL PARA BUSCAR USUARIO UNICO. $COLUMN É DIGITADO MANUALMENTE NOS CONTROLERS. SEM RISCO DE SQL INJECTION. $DATA RECEBE DADOS.
     public function VerifyUserData($column, $data)
     {

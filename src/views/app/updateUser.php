@@ -1,3 +1,5 @@
+<?php require __DIR__ . "/../app/deleteUser.php" ?>
+
 <div class="container d-flex flex-fill justify-content-between align-items-center rounded-3 gap-lg-2 p-4">
     <div class="container-right flex-fill">
         <div class="text-center">
@@ -14,6 +16,7 @@
             <?php unset($_SESSION['error']);
             } ?>
 
+            <input type="hidden" name="action" value="updateUser">
             <input type="hidden" name="user_id" value="<?= $dbUser['id'] ?>">
             <div class="mb-3">
                 <label for="name" class="form-label">Nome completo</label>
@@ -31,12 +34,15 @@
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" placeholder="Digite seu email" value="<?= $dbUser['email']; ?>">
             </div>
-            <!-- <input type="hidden" name="role" value="user">
-            <input type="hidden" name="status" value="1"> -->
-            <div class="d-flex gap-2 mt-5">
+            <div class="d-flex gap-2 mt-5 mb-4">
                 <button type="submit" class="btn bg-dark-blue w-100 rounded-5 py-2 text-light">Atualizar</button>
-                <a href="/sistema-de-chamados/public/home.php" type="submit" class="btn bg-danger w-100 rounded-5 py-2 text-light">Voltar</a>
+                <a href="/sistema-de-chamados/public/home.php" type="submit" class="btn bg-dark w-100 rounded-5 py-2 text-light">Voltar</a>
             </div>
         </form>
+
+        <!-- Button trigger modal Delete -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Excluir conta
+        </button>
     </div>
 </div>

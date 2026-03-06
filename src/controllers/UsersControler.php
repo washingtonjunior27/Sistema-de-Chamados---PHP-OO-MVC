@@ -65,6 +65,19 @@ class UsersControler
         exit;
     }
 
+    public function DeleteUserControler()
+    {
+        $id = $_POST['user_id'];
+
+        $userRepository = new UsersRepository();
+        $userRepository->DeleteUserRepository($id);
+
+        $_SESSION['sucess'] = "Usuário excluido com sucesso!";
+        unset($_SESSION['user']);
+        header("location: /sistema-de-chamados/public/index.php");
+        exit;
+    }
+
     public function TrackUserUpdate()
     {
         // SE NAO ENCONTRAR ID NO GET
