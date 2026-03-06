@@ -1,4 +1,13 @@
 <main class="container mt-5 flex-fill">
+
+    <?php if ($_SESSION['user']['role'] === "user") { ?>
+        <h3 class="fs-3 mb-5 text-center">Painel de Usuário</h3>
+    <?php } elseif ($_SESSION['user']['role'] === "admin") { ?>
+        <h3 class="fs-3 mb-5 text-center">Painel de Administrador</h3>
+    <?php } else { ?>
+        <h3 class="fs-3 mb-5 text-center">Painel de Atendente</h3>
+    <?php } ?>
+
     <div class="cards-main">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">

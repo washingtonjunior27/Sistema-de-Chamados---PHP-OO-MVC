@@ -31,7 +31,10 @@
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link text-light" href="#"><?= $_SESSION['user']['username']; ?></a>
+                                <form action="/sistema-de-chamados/public/updateUser.php" method="GET">
+                                    <input type="hidden" name="user_id" value="<?= $_SESSION['user']['id'] ?>">
+                                    <button type="submit" class="nav-link text-light"><?= $_SESSION['user']['username']; ?></button>
+                                </form>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-light" href="/sistema-de-chamados/public/logout.php">Sair</a>
