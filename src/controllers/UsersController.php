@@ -3,9 +3,9 @@
 require_once __DIR__ . "/../services/UsersServices.php";
 require_once __DIR__ . "/../models/Users.php";
 
-class UsersControler
+class UsersController
 {
-    public function CreateUserControler()
+    public function CreateUserController()
     {
         // INSTANCIA MODEL USERS
         $user = new Users();
@@ -25,13 +25,13 @@ class UsersControler
         // SE SERVICES RETORNAR ERROR
         if (isset($result['error'])) {
             $_SESSION['error'] = $result['error'];
-            header("location: /sistema-de-chamados/public/register.php");
+            header("location: " . BASE_URL . "index.php?route=/register");
             exit;
         }
 
         // SE SERVICES RETORNAR SUCESSO
         $_SESSION['sucess'] = $result['sucess'];
-        header("location: /sistema-de-chamados/public/index.php");
+        header("location: " . BASE_URL . "index.php?route=/login");
         exit;
     }
 
@@ -50,7 +50,7 @@ class UsersControler
         require __DIR__ . "/../views/app/users.php";
     }
 
-    public function UpdateUserControler()
+    public function ProfileController()
     {
         // INSTANCIA DE MODEL USERS
         $user = new Users();
@@ -69,18 +69,18 @@ class UsersControler
         // SE SERVICE RETORNAR ERROR
         if (isset($result["error"])) {
             $_SESSION['error'] = $result['error'];
-            header("location: /sistema-de-chamados/public/updateUser.php?user_id={$user->getId()}");
+            header("location:" . BASE_URL . "index.php?route=/profile");
             exit;
         }
 
         // SE SERVICE RETORNAR SUCESS
         $_SESSION['sucess'] = $result['sucess'];
         unset($_SESSION['user']);
-        header("location: /sistema-de-chamados/public/index.php");
+        header("location:" . BASE_URL . "index.php?route=/login");
         exit;
     }
 
-    public function StatusUserControler()
+    public function StatusUserController()
     {
         $id = $_POST['user_id'];
         $action = $_POST['action'];
@@ -91,57 +91,42 @@ class UsersControler
             $userRepository->StatusUserRepository($id, 1);
 
             $_SESSION['sucess'] = "Usuário reativado com sucesso!";
-            header("location: /sistema-de-chamados/public/users.php");
+            header("location:" . BASE_URL . "index.php?route=/users");
             exit;
         } else {
             $userRepository->StatusUserRepository($id, 2);
 
             if ($_SESSION['user']['role'] === "admin") {
                 $_SESSION['sucess'] = "Usuário desativado com sucesso!";
-                header("location: /sistema-de-chamados/public/users.php");
+                header("location:" . BASE_URL . "index.php?route=/users");
                 exit;
             }
 
             $_SESSION['sucess'] = "Usuário desativado com sucesso!";
             unset($_SESSION['user']);
-            header("location: /sistema-de-chamados/public/index.php");
+            header("location:" . BASE_URL . "index.php?route=/login");
             exit;
         }
     }
 
-    public function EnableUserControler() {}
-
-    public function TrackUserUpdate()
+    public function TrackProfileController()
     {
-        // SE NAO ENCONTRAR ID NO GET
-        if (!isset($_GET['user_id'])) {
-            header("location: /sistema-de-chamados/public/home.php");
-            exit;
-        }
-
-        // ARMAZENA ID DIGITADO NO URI E ID DE USUARIO DA SESSAO
-        $user_id = $_GET['user_id'];
+        // Recupera ID DA SESSAO
         $sessionUserId = $_SESSION['user']['id'];
-
-        // FAZ A CINOARAÇÃO DOS IDS PARA QUE O USUARIO NAO POSSA BURLAR A EDIÇÃO COM ID DE OUTOR USUARIO
-        if ($user_id !== $sessionUserId) {
-            header("location: /sistema-de-chamados/public/home.php");
-            exit;
-        }
 
         // INSTANCIA USUARIOS E ARMAZENA ID
         $user = new Users();
-        $user->setId($user_id);
+        $user->setId($sessionUserId);
 
         // CHAMMA REPOSITORY PARA ENCONTRAR USUARIO DE ACORDO COM O ID
         $userRepository = new UsersRepository();
         $dbUser = $userRepository->VerifyUserData("id", $user->getId());
 
         // MOSTRA O FORMULARIO DE UPDATE COM DADOS PREENCHIDOS
-        require __DIR__ . "/../views/app/updateUser.php";
+        require __DIR__ . "/../views/app/profile.php";
     }
 
-    public function LoginUserControler()
+    public function LoginUserController()
     {
         // INSTANCIA USUARIOS
         $user = new Users();
@@ -157,7 +142,7 @@ class UsersControler
         // SE SERVICE RETORNAR ERRO EXIBE MENSAGEM
         if (isset($result['error'])) {
             $_SESSION['error'] = $result['error'];
-            header("location: /sistema-de-chamados/public/index.php");
+            header("location:" . BASE_URL . "index.php?route=/login");
             exit;
         }
 
@@ -173,7 +158,7 @@ class UsersControler
         ];
 
         // FINALIZA PROCESSO DE LOGIN
-        header('location: /sistema-de-chamados/public/home.php');
+        header("location:" . BASE_URL . "index.php?route=/home");
         exit;
     }
 }

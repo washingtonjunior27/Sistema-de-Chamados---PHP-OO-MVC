@@ -1,15 +1,34 @@
 <?php
 
+define("BASE_URL", "/sistema-de-chamados/public/");
+
+require_once __DIR__ . "/../src/controllers/PagesController.php";
+
 session_start();
 
-require __DIR__ . "/../src/views/layouts/auth/headerLogin.php";
-require __DIR__ . "/../src/views/auth/login.php";
-require __DIR__ . "/../src/controllers/UsersControler.php";
+$route = $_GET['route'] ?? "/login";
+$pagesController = new PagesController();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $userControler = new UsersControler();
-    $userControler->LoginUserControler();
+switch ($route) {
+    case "/login":
+        $pagesController->LoginPageController();
+        break;
+    case "/logout":
+        $pagesController->LogoutPageController();
+        break;
+    case "/register":
+        $pagesController->RegisterPageController();
+        break;
+    case "/home":
+        $pagesController->HomePageController();
+        break;
+    case "/profile":
+        $pagesController->ProfilePageController();
+        break;
+    case "/users":
+        $pagesController->UsersPageController();
+        break;
+    default:
+        $pagesController->LoginPageController();
+        break;
 }
-
-
-require __DIR__ . "/../src/views/layouts/auth/footerLogin.php";

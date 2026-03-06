@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <p class="mt-3">Tem certeza que deseja desativar a conta do usuario <?= $user['username'] ?>?</p>
             </div>
-            <form class="modal-footer" action="/sistema-de-chamados/public/users.php" method="POST">
+            <form class="modal-footer" action="<?= BASE_URL ?>index.php?route=/users" method="POST">
                 <input type="hidden" name="action" value="disableUserAdmin">
                 <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

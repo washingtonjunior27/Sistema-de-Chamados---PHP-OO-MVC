@@ -9,7 +9,8 @@
     <?php unset($_SESSION['sucess']);
     } ?>
 
-    <form class="d-flex" method="GET" action="/sistema-de-chamados/public/users.php">
+    <form class="d-flex" method="GET" action="<?= BASE_URL ?>index.php">
+        <input type="hidden" name="route" value="/users">
         <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
@@ -28,48 +29,53 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user) { ?>
-                    <tr>
-                        <td><?= $user['id'] ?></td>
-                        <td><?= $user['name'] ?></td>
-                        <td><?= $user['username'] ?></td>
-                        <td><?= $user['email'] ?></td>
-                        <td><?= $user['role'] ?></td>
+                <?php
+
+                if (count($users) > 0) {
+                    foreach ($users as $user) {
+                ?>
+                        <tr>
+                            <td><?= $user['id'] ?></td>
+                            <td><?= $user['name'] ?></td>
+                            <td><?= $user['username'] ?></td>
+                            <td><?= $user['email'] ?></td>
+                            <td><?= $user['role'] ?></td>
 
 
-                        <?php if ($user['status'] == 1) { ?>
-                            <td>Ativo</td>
-                            <td class="text-center text-warning fs-4"><i class="fa-solid fa-pen-to-square"></i></td>
+                            <?php if ($user['status'] == 1) { ?>
+                                <td>Ativo</td>
+                                <td class="text-center text-warning fs-4"><i class="fa-solid fa-pen-to-square"></i></td>
 
-                            <!-- DESATIVAR USUARIO -->
+                                <!-- DESATIVAR USUARIO -->
 
-                            <?php if ($user['role'] === "admin") { ?>
-                                <td class="text-center">
-                                    <i class="fa-solid fa-ban fs-4 text-secondary mt-1"></i>
-                                </td>
+                                <?php if ($user['role'] === "admin") { ?>
+                                    <td class="text-center">
+                                        <i class="fa-solid fa-ban fs-4 text-secondary mt-1"></i>
+                                    </td>
+                                <?php } else { ?>
+                                    <td class="text-center">
+                                        <button type="button" class="btn p-0 btn-link text-danger" data-bs-toggle="modal" data-bs-target="#disableUser<?= $user['id']; ?>">
+                                            <i class="fa-solid fa-ban fs-4 mt-1"></i>
+                                        </button>
+                                    </td>
+                                <?php } ?>
+
+
                             <?php } else { ?>
+                                <td>Desativado</td>
+                                <td class="text-center text-warning fs-4"><i class="fa-solid fa-pen-to-square"></i></td>
+
                                 <td class="text-center">
-                                    <button type="button" class="btn p-0 btn-link text-danger" data-bs-toggle="modal" data-bs-target="#disableUser<?= $user['id']; ?>">
-                                        <i class="fa-solid fa-ban fs-4 mt-1"></i>
+                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#enableUser<?= $user['id']; ?>">
+                                        <i class="fa-solid fa-user-check fs-4 mt-1"></i>
                                     </button>
                                 </td>
-                            <?php } ?>
-
-
-                        <?php } else { ?>
-                            <td>Desativado</td>
-                            <td class="text-center text-warning fs-4"><i class="fa-solid fa-pen-to-square"></i></td>
-
-                            <td class="text-center">
-                                <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#enableUser<?= $user['id']; ?>">
-                                    <i class="fa-solid fa-user-check fs-4 mt-1"></i>
-                                </button>
-                            </td>
-                        <?php } ?>
-                    </tr>
-
-
-                <?php } ?>
+                        <?php }
+                        }
+                    } else { ?>
+                        <td colspan="7" class="text-center">Nenhum usuário encontrado!</td>
+                    <?php } ?>
+                        </tr>
             </tbody>
         </table>
     </div>
