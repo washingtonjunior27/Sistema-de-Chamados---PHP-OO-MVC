@@ -9,6 +9,14 @@
     <?php unset($_SESSION['sucess']);
     } ?>
 
+    <?php if (isset($_SESSION['error'])) { ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?php echo $_SESSION['error']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['error']);
+    } ?>
+
     <form class="d-flex" method="GET" action="<?= BASE_URL ?>index.php">
         <input type="hidden" name="route" value="/users">
         <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
@@ -44,15 +52,25 @@
 
                             <?php if ($user['status'] == 1) { ?>
                                 <td>Ativo</td>
-                                <td class="text-center text-warning fs-4"><i class="fa-solid fa-pen-to-square"></i></td>
 
-                                <!-- DESATIVAR USUARIO -->
 
+
+                                <!-- DESATIVAR USUARIO - SE FOR ADMIN DESABILITADO -->
                                 <?php if ($user['role'] === "admin") { ?>
+                                    <td class="text-center">
+                                        <i class="fa-solid fa-pen-to-square text-secondary fs-4 mt-1"></i>
+                                    </td>
                                     <td class="text-center">
                                         <i class="fa-solid fa-ban fs-4 text-secondary mt-1"></i>
                                     </td>
+                                    <!-- DESATIVAR USUARIO - SE FOR ATENDENTE OU USUARIO É HABILITADO -->
                                 <?php } else { ?>
+                                    <!-- EDITAR USUARIO -->
+                                    <td class="text-center  fs-4">
+                                        <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#editUserAdmin<?= $user['id']; ?>">
+                                            <i class="fa-solid fa-pen-to-square text-warning fs-4"></i>
+                                        </button>
+                                    </td>
                                     <td class="text-center">
                                         <button type="button" class="btn p-0 btn-link text-danger" data-bs-toggle="modal" data-bs-target="#disableUser<?= $user['id']; ?>">
                                             <i class="fa-solid fa-ban fs-4 mt-1"></i>
@@ -63,8 +81,15 @@
 
                             <?php } else { ?>
                                 <td>Desativado</td>
-                                <td class="text-center text-warning fs-4"><i class="fa-solid fa-pen-to-square"></i></td>
 
+                                <!-- EDITAR USUARIO -->
+                                <td class="text-center  fs-4">
+                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#editUserAdmin<?= $user['id']; ?>">
+                                        <i class="fa-solid fa-pen-to-square text-warning fs-4"></i>
+                                    </button>
+                                </td>
+
+                                <!-- REATIVAR USUARIO -->
                                 <td class="text-center">
                                     <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#enableUser<?= $user['id']; ?>">
                                         <i class="fa-solid fa-user-check fs-4 mt-1"></i>
@@ -83,6 +108,7 @@
     <?php foreach ($users as $user) {
         require __DIR__ . "/../auth/disableUserAdmin.php";
         require __DIR__ . "/../auth/enableUserAdmin.php";
+        require __DIR__ . "/../auth/editUserAdmin.php";
     } ?>
 
 

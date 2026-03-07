@@ -51,7 +51,21 @@ class UsersRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // SQL PARA ATUALIZAR USUARIO
+    // SQL PARA ATUALIZAR USUARIO PELO ADMINISTRADOR
+    public function UpdateUserAdminRepository(Users $user)
+    {
+        $sql = "UPDATE users SET name = :name, username = :username, email = :email, role = :role WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ":name" => $user->getName(),
+            ":username" => $user->getUsername(),
+            ":email" => $user->getEmail(),
+            ":role" => $user->getRole(),
+            ":id" => $user->getId()
+        ]);
+    }
+
+    // SQL PARA USUARIO ATUALIZAR OS PROPRIOS DADOS
     public function UpdateUserRepository(Users $user)
     {
         $sql = "UPDATE users SET name = :name, username = :username, password = :password, email = :email WHERE id = :id";

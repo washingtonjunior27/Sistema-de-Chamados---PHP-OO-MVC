@@ -56,20 +56,34 @@ class UsersController
         $user = new Users();
 
         // RECEBE VARIAVEIS DO FORMULARIO DE UPDATE
+        $action = $_POST['action'] ?? "";
         $user->setId((int) $_POST['user_id']);
         $user->setName(trim($_POST['name']) ?? "");
         $user->setUsername(trim($_POST['username']) ?? "");
         $user->setPassword($_POST['password'] ?? "");
         $user->setEmail(trim($_POST['email']) ?? "");
+        $user->setRole(trim($_POST['role']) ?? "");
 
         // CHAMA O SERVICE PARA VALIDAR O UPDATE DE USUARIOS
         $usersService = new UsersServices();
-        $result = $usersService->UpdateUserService($user);
+        $result = $usersService->UpdateUserService($user, $action);
 
         // SE SERVICE RETORNAR ERROR
         if (isset($result["error"])) {
-            $_SESSION['error'] = $result['error'];
-            header("location:" . BASE_URL . "index.php?route=/profile");
+            if ($action === "editUserAdmin") {
+                $_SESSION['error'] = $result['error'];
+                header("location:" . BASE_URL . "index.php?route=/users");
+                exit;
+            } else {
+                $_SESSION['error'] = $result['error'];
+                header("location:" . BASE_URL . "index.php?route=/profile");
+                exit;
+            }
+        }
+
+        if ($action === "editUserAdmin") {
+            $_SESSION['sucess'] = $result['sucess'];
+            header("location:" . BASE_URL . "index.php?route=/users");
             exit;
         }
 

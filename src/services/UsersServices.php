@@ -39,11 +39,15 @@ class UsersServices
         return ["sucess" => "Cadastro realizado com sucesso"];
     }
 
-    public function UpdateUserService($user)
+    public function UpdateUserService($user, $action)
     {
         // VALIDA CAMPOS VAZIOS
-        if (!$user->getName() || !$user->getUsername() || !$user->getPassword() || !$user->getEmail()) {
+        if (!$user->getName() || !$user->getUsername() || !$user->getEmail()) {
             return ['error' => "Preencha os campos vazios!"];
+        }
+
+        if ($action !== "editUserAdmin" && !$user->getPassword()) {
+            return ['error' => "Digite sua senha para confirmar as alterações!"];
         }
 
         $userRepository = new UsersRepository();
@@ -70,18 +74,24 @@ class UsersServices
             }
         }
 
-        // HASH DA SENHA DENOVO
-        $options = [
-            "memory_cost" => 65000,
-            "time_cost" => 3,
-            "threads" => 2
-        ];
+        if ($user->getPassword()) {
+            // HASH DA SENHA DENOVO
+            $options = [
+                "memory_cost" => 65000,
+                "time_cost" => 3,
+                "threads" => 2
+            ];
 
-        $password_hash = password_hash($user->getPassword(), PASSWORD_ARGON2ID, $options);
-        $user->setPassword($password_hash);
+            $password_hash = password_hash($user->getPassword(), PASSWORD_ARGON2ID, $options);
+            $user->setPassword($password_hash);
+            $userRepository->UpdateUserRepository($user);
+        } else {
+            $userRepository->UpdateUserAdminRepository($user);
+        }
 
 
-        $userRepository->UpdateUserRepository($user);
+
+
 
         return ["sucess" => "Dados atualizados com sucesso!"];
     }

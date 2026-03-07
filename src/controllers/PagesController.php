@@ -101,8 +101,15 @@ class PagesController
         require __DIR__ . "/../views/layouts/app/header.php";
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            // ADMIN PODE EDITAR PERFIS DE USUARIOS
+            if ($_POST['action'] === "editUserAdmin") {
+                $this->userController->ProfileController();
+            }
+
+            // ATUALIZAÇÃO DE CONTA ATIVA OU INATIVA
             $this->userController->StatusUserController();
         } else {
+            // APRESENTA TODOS OS DADOS
             $this->userController->ReadUserController();
         }
 

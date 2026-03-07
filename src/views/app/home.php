@@ -12,7 +12,7 @@
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide  text-center">
-                    <div class="card text-bg-primary mb-3" style=" min-height: 8rem;">
+                    <div class="card text-bg-primary mb-3 rounded-0" style=" min-height: 8rem;">
                         <div class="card-header fw-semibold">Chamados em Aberto</div>
                         <div class="card-body">
                             <h5 class="card-title fs-1">12</h5>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide text-center">
-                    <div class="card text-bg-primary mb-3" style=" min-height: 8rem;">
+                    <div class="card text-bg-primary mb-3 rounded-0" style=" min-height: 8rem;">
                         <div class="card-header fw-semibold">Chamados Encerrados</div>
                         <div class="card-body">
                             <h5 class="card-title fs-1">150</h5>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide text-center">
-                    <div class="card text-bg-primary mb-3" style=" min-height: 8rem;">
+                    <div class="card text-bg-primary mb-3 rounded-0" style=" min-height: 8rem;">
                         <div class="card-header fw-semibold">Usuários Ativos</div>
                         <div class="card-body">
                             <h5 class="card-title fs-1">60</h5>
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide text-center">
-                    <div class="card text-bg-primary mb-3" style=" min-height: 8rem;">
+                    <div class="card text-bg-primary mb-3 rounded-0" style=" min-height: 8rem;">
                         <div class="card-header fw-semibold">Chamados Hoje</div>
                         <div class="card-body">
                             <h5 class="card-title fs-1">27</h5>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide text-center">
-                    <div class="card text-bg-primary mb-3" style=" min-height: 8rem;">
+                    <div class="card text-bg-primary mb-3 rounded-0" style=" min-height: 8rem;">
                         <div class="card-header fw-semibold">Melhor Atendente</div>
                         <div class="card-body d-flex align-items-center justify-content-center">
                             <h5 class="card-title fs-5">washington.junior</h5>
@@ -59,7 +59,7 @@
         <h2 class="text-dark fs-6 fw-bold">Ultimos Chamados</h2>
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive mb-5">
         <table class="table table-bordered border-black text-nowrap">
             <thead>
                 <tr>
