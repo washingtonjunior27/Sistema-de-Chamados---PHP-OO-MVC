@@ -23,7 +23,7 @@
 
 
                         <li class="nav-item">
-                            <a class="nav-link text-light" href="#">Chamados</a>
+                            <a class="nav-link text-light" href="<?= BASE_URL ?>index.php?route=/chamados">Chamados</a>
                         </li>
                     </ul>
                 </div>

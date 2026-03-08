@@ -52,3 +52,19 @@
     width: 100%;
     transition: .3s;
 }
+.text-justify{
+    text-align: justify;
+}
+.chamado-desc{
+    min-width: 500px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: auto;
+}
+.chamado-atend{
+    min-width: 154px;
+}
+.chamado-title{
+    min-width: 220px;
+}

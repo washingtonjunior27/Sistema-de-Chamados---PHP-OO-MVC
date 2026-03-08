@@ -31,7 +31,17 @@
                     <div class="card text-bg-primary mb-3 rounded-0" style=" min-height: 8rem;">
                         <div class="card-header fw-semibold">Usuários Ativos</div>
                         <div class="card-body">
-                            <h5 class="card-title fs-1">60</h5>
+                            <h5 class="card-title fs-1">
+                                <?php
+                                $activeUsers = 0;
+                                foreach ($users as $user) {
+                                    if ($user['status'] == 1) {
+                                        $activeUsers++;
+                                    }
+                                }
+                                echo $activeUsers;
+                                ?>
+                            </h5>
                         </div>
                     </div>
                 </div>

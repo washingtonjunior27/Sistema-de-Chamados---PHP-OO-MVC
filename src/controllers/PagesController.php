@@ -1,14 +1,17 @@
 <?php
 
 require_once __DIR__ . "/UsersController.php";
+require_once __DIR__ . "/ChamadosController.php";
 
 class PagesController
 {
     private $userController;
+    private $chamadosController;
 
     public function __construct()
     {
         $this->userController = new UsersController();
+        $this->chamadosController = new ChamadosController();
     }
 
     public function LoginPageController()
@@ -52,7 +55,21 @@ class PagesController
 
         require __DIR__ . "/../views/layouts/auth/headerLogin.php";
         require __DIR__ . "/../views/layouts/app/header.php";
-        require __DIR__ . "/../views/app/home.php";
+        $this->userController->HomeReadController();
+        require __DIR__ . "/../views/layouts/app/footer.php";
+        require __DIR__ . "/../views/layouts/auth/footerLogin.php";
+    }
+
+    public function ChamadosPageController()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location: " . BASE_URL . "index.php?route=/login");
+            exit;
+        }
+
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../views/layouts/app/header.php";
+        $this->chamadosController->ChamadosReadController();
         require __DIR__ . "/../views/layouts/app/footer.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";
     }
@@ -103,7 +120,7 @@ class PagesController
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             // ADMIN PODE EDITAR PERFIS DE USUARIOS
             if ($_POST['action'] === "editUserAdmin") {
-                $this->userController->ProfileController();
+                $this->userController->ProfileAdminController();
             }
 
             // ATUALIZAÇÃO DE CONTA ATIVA OU INATIVA

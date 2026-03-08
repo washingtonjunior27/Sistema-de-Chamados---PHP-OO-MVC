@@ -2,25 +2,33 @@
 
 require_once __DIR__ . "/../services/UsersServices.php";
 require_once __DIR__ . "/../models/Users.php";
+require_once __DIR__ . "/../repositories/UsersRepository.php";
 
 class UsersController
 {
+    private $userRepository;
+    private $usersService;
+    private $user;
+
+    public function __construct()
+    {
+        $this->userRepository = new UsersRepository();
+        $this->usersService = new UsersServices();
+        $this->user = new Users();
+    }
+
     public function CreateUserController()
     {
-        // INSTANCIA MODEL USERS
-        $user = new Users();
-
         // RECEBE VARIAVEIS DO FORMULARIO DE CADASTRO
-        $user->setName(trim($_POST['name'] ?? ""));
-        $user->setUsername(trim($_POST['username'] ?? ""));
-        $user->setPassword($_POST['password'] ?? "");
-        $user->setEmail(trim($_POST['email'] ?? ""));
-        $user->setRole($_POST['role'] ?? "");
-        $user->setStatus($_POST['status'] ?? "");
+        $this->user->setName(trim($_POST['name'] ?? ""));
+        $this->user->setUsername(trim($_POST['username'] ?? ""));
+        $this->user->setPassword($_POST['password'] ?? "");
+        $this->user->setEmail(trim($_POST['email'] ?? ""));
+        $this->user->setRole($_POST['role'] ?? "");
+        $this->user->setStatus($_POST['status'] ?? "");
 
         // CHAMA O SERVICE DE VALIDAÇÕES DO CADASTRO DE USUARIOS
-        $usersService = new UsersServices();
-        $result = $usersService->CreateUsersService($user);
+        $result = $this->usersService->CreateUsersService($this->user);
 
         // SE SERVICES RETORNAR ERROR
         if (isset($result['error'])) {
@@ -39,51 +47,38 @@ class UsersController
     {
         $search = trim($_GET['search'] ?? "");
         // ARMAZENA DADOS DO BANCO DE DADOS COM REPOSITORY
-        $userRepository = new UsersRepository();
 
         if ($search) {
-            $users = $userRepository->SearchUserRepository($search);
+            $users = $this->userRepository->SearchUserRepository($search);
         } else {
-            $users = $userRepository->ReadUserRepository();
+            $users = $this->userRepository->ReadUserRepository();
         }
 
         require __DIR__ . "/../views/app/users.php";
     }
 
+    public function HomeReadController()
+    {
+        $users = $this->userRepository->ReadUserRepository();
+        require __DIR__ . "/../views/app/home.php";
+    }
+
     public function ProfileController()
     {
-        // INSTANCIA DE MODEL USERS
-        $user = new Users();
-
         // RECEBE VARIAVEIS DO FORMULARIO DE UPDATE
-        $action = $_POST['action'] ?? "";
-        $user->setId((int) $_POST['user_id']);
-        $user->setName(trim($_POST['name']) ?? "");
-        $user->setUsername(trim($_POST['username']) ?? "");
-        $user->setPassword($_POST['password'] ?? "");
-        $user->setEmail(trim($_POST['email']) ?? "");
-        $user->setRole(trim($_POST['role']) ?? "");
+        $this->user->setId((int) $_POST['user_id']);
+        $this->user->setName(trim($_POST['name']) ?? "");
+        $this->user->setUsername(trim($_POST['username']) ?? "");
+        $this->user->setPassword($_POST['password'] ?? "");
+        $this->user->setEmail(trim($_POST['email']) ?? "");
 
         // CHAMA O SERVICE PARA VALIDAR O UPDATE DE USUARIOS
-        $usersService = new UsersServices();
-        $result = $usersService->UpdateUserService($user, $action);
+        $result = $this->usersService->UpdateUserService($this->user);
 
         // SE SERVICE RETORNAR ERROR
         if (isset($result["error"])) {
-            if ($action === "editUserAdmin") {
-                $_SESSION['error'] = $result['error'];
-                header("location:" . BASE_URL . "index.php?route=/users");
-                exit;
-            } else {
-                $_SESSION['error'] = $result['error'];
-                header("location:" . BASE_URL . "index.php?route=/profile");
-                exit;
-            }
-        }
-
-        if ($action === "editUserAdmin") {
-            $_SESSION['sucess'] = $result['sucess'];
-            header("location:" . BASE_URL . "index.php?route=/users");
+            $_SESSION['error'] = $result['error'];
+            header("location:" . BASE_URL . "index.php?route=/profile");
             exit;
         }
 
@@ -94,21 +89,42 @@ class UsersController
         exit;
     }
 
+    public function ProfileAdminController()
+    {
+        $this->user->setId((int) $_POST['user_id']);
+        $this->user->setName(trim($_POST['name']) ?? "");
+        $this->user->setUsername(trim($_POST['username']) ?? "");
+        $this->user->setEmail(trim($_POST['email']) ?? "");
+        $this->user->setRole(trim($_POST['role']) ?? "");
+
+        // CHAMA O SERVICE PARA VALIDAR O UPDATE DE USUARIOS
+        $result = $this->usersService->UpdateUserAdminService($this->user);
+
+        // SE SERVICE RETORNAR ERROR
+        if (isset($result["error"])) {
+            $_SESSION['error'] = $result['error'];
+            header("location:" . BASE_URL . "index.php?route=/users");
+            exit;
+        }
+
+        $_SESSION['sucess'] = $result['sucess'];
+        header("location:" . BASE_URL . "index.php?route=/users");
+        exit;
+    }
+
     public function StatusUserController()
     {
         $id = $_POST['user_id'];
         $action = $_POST['action'];
 
-        $userRepository = new UsersRepository();
-
         if ($action === "enableUserAdmin") {
-            $userRepository->StatusUserRepository($id, 1);
+            $this->userRepository->StatusUserRepository($id, 1);
 
             $_SESSION['sucess'] = "Usuário reativado com sucesso!";
             header("location:" . BASE_URL . "index.php?route=/users");
             exit;
         } else {
-            $userRepository->StatusUserRepository($id, 2);
+            $this->userRepository->StatusUserRepository($id, 2);
 
             if ($_SESSION['user']['role'] === "admin") {
                 $_SESSION['sucess'] = "Usuário desativado com sucesso!";
@@ -129,12 +145,10 @@ class UsersController
         $sessionUserId = $_SESSION['user']['id'];
 
         // INSTANCIA USUARIOS E ARMAZENA ID
-        $user = new Users();
-        $user->setId($sessionUserId);
+        $this->user->setId($sessionUserId);
 
         // CHAMMA REPOSITORY PARA ENCONTRAR USUARIO DE ACORDO COM O ID
-        $userRepository = new UsersRepository();
-        $dbUser = $userRepository->VerifyUserData("id", $user->getId());
+        $dbUser = $this->userRepository->VerifyUserData("id", $this->user->getId());
 
         // MOSTRA O FORMULARIO DE UPDATE COM DADOS PREENCHIDOS
         require __DIR__ . "/../views/app/profile.php";
@@ -142,16 +156,12 @@ class UsersController
 
     public function LoginUserController()
     {
-        // INSTANCIA USUARIOS
-        $user = new Users();
-
         // ARMAZENA CAMPOS DO LOGIN
-        $user->setUsername(trim($_POST['username']) ?? "");
-        $user->setPassword($_POST['password'] ?? "");
+        $this->user->setUsername(trim($_POST['username']) ?? "");
+        $this->user->setPassword($_POST['password'] ?? "");
 
         // FAZ VALIDAÇÕES NO SERVICE
-        $usersService = new UsersServices();
-        $result = $usersService->LoginUserService($user);
+        $result = $this->usersService->LoginUserService($this->user);
 
         // SE SERVICE RETORNAR ERRO EXIBE MENSAGEM
         if (isset($result['error'])) {

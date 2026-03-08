@@ -5,6 +5,13 @@ require_once __DIR__ . "/../models/Users.php";
 
 class UsersServices
 {
+    private $userRepository;
+
+    public function __construct()
+    {
+        $this->userRepository = new UsersRepository();
+    }
+
     public function CreateUsersService(Users $user)
     {
         // VALIDA CAMPOS VAZIOS
@@ -12,14 +19,12 @@ class UsersServices
             return ["error" => "Preencha os campos vazios!"];
         }
 
-        $userRepository = new UsersRepository();
-
         // VALIDA EMAILS JA CADASTRADOS
-        if ($userRepository->VerifyUserData("email", $user->getEmail())) {
+        if ($this->userRepository->VerifyUserData("email", $user->getEmail())) {
             return ["error" => "Email ja cadastrado!"];
         }
         // VALIDA USERNAMES JA CADASTRADOS
-        if ($userRepository->VerifyUserData("username", $user->getUsername())) {
+        if ($this->userRepository->VerifyUserData("username", $user->getUsername())) {
             return ["error" => "Login ja está em uso!"];
         }
         // HASH EXTRA PARA ARGON2ID CONTRA PLACAS DE VIDEOS COM MUITOS NUCLEOS
@@ -34,26 +39,20 @@ class UsersServices
         $user->setPassword($password_hash);
 
 
-        $userRepository->CreateUserRepository($user);
+        $this->userRepository->CreateUserRepository($user);
 
         return ["sucess" => "Cadastro realizado com sucesso"];
     }
 
-    public function UpdateUserService($user, $action)
+    public function UpdateUserService(Users $user)
     {
         // VALIDA CAMPOS VAZIOS
-        if (!$user->getName() || !$user->getUsername() || !$user->getEmail()) {
+        if (!$user->getName() || !$user->getUsername() || !$user->getEmail() || !$user->getPassword()) {
             return ['error' => "Preencha os campos vazios!"];
         }
 
-        if ($action !== "editUserAdmin" && !$user->getPassword()) {
-            return ['error' => "Digite sua senha para confirmar as alterações!"];
-        }
-
-        $userRepository = new UsersRepository();
-
         // VERIFICA SE O USERNAME JA EXISTE NO BANCO DE DADOS E ARMAZENA TODOS OS DADOS EM UMA VARIAVEL SE RETURN TRUE
-        $usernameDb = $userRepository->VerifyUserData("username", $user->getUsername());
+        $usernameDb = $this->userRepository->VerifyUserData("username", $user->getUsername());
 
 
         // SE TIVER RETORNADO TRUE
@@ -65,7 +64,7 @@ class UsersServices
         }
 
         // VERIFICA SE O EMAIL JA EXISTE NO BANCO DE DADOS E ARMAZENA TODOS OS DADOS EM UMA VARIAVEL SE RETURN TRUE
-        $emailDb = $userRepository->VerifyUserData("email", $user->getEmail());
+        $emailDb = $this->userRepository->VerifyUserData("email", $user->getEmail());
         // SE TIVER RETORNADO TRUE
         if ($emailDb) {
             // VERIFICA SE O ID RETORNADO DO USUARIO É O MESMO DO USUÁRIO LOGADO, PARA QUE ASSIM POSSA ATUALIZAR DADOS REPETIDOS.
@@ -74,25 +73,48 @@ class UsersServices
             }
         }
 
-        if ($user->getPassword()) {
-            // HASH DA SENHA DENOVO
-            $options = [
-                "memory_cost" => 65000,
-                "time_cost" => 3,
-                "threads" => 2
-            ];
+        $options = [
+            "memory_cost" => 65000,
+            "time_cost" => 3,
+            "threads" => 2
+        ];
 
-            $password_hash = password_hash($user->getPassword(), PASSWORD_ARGON2ID, $options);
-            $user->setPassword($password_hash);
-            $userRepository->UpdateUserRepository($user);
-        } else {
-            $userRepository->UpdateUserAdminRepository($user);
+        $password_hash = password_hash($user->getPassword(), PASSWORD_ARGON2ID, $options);
+        $user->setPassword($password_hash);
+        $this->userRepository->UpdateUserRepository($user);
+        return ["sucess" => "Dados atualizados com sucesso!"];
+    }
+
+    public function UpdateUserAdminService(Users $user)
+    {
+        // VALIDA CAMPOS VAZIOS
+        if (!$user->getName() || !$user->getUsername() || !$user->getEmail()) {
+            return ['error' => "Preencha os campos vazios!"];
+        }
+
+        // VERIFICA SE O USERNAME JA EXISTE NO BANCO DE DADOS E ARMAZENA TODOS OS DADOS EM UMA VARIAVEL SE RETURN TRUE
+        $usernameDb = $this->userRepository->VerifyUserData("username", $user->getUsername());
+
+        // SE TIVER RETORNADO TRUE
+        if ($usernameDb) {
+            // VERIFICA SE O ID RETORNADO DO USUARIO É O MESMO DO USUÁRIO LOGADO, PARA QUE ASSIM POSSA ATUALIZAR DADOS REPETIDOS.
+            if ((int)$usernameDb['id'] !== (int)$user->getId()) {
+                return ['error' => "Login ja está em uso!"];
+            }
+        }
+
+        // VERIFICA SE O EMAIL JA EXISTE NO BANCO DE DADOS E ARMAZENA TODOS OS DADOS EM UMA VARIAVEL SE RETURN TRUE
+        $emailDb = $this->userRepository->VerifyUserData("email", $user->getEmail());
+        // SE TIVER RETORNADO TRUE
+        if ($emailDb) {
+            // VERIFICA SE O ID RETORNADO DO USUARIO É O MESMO DO USUÁRIO LOGADO, PARA QUE ASSIM POSSA ATUALIZAR DADOS REPETIDOS.
+            if ((int)$emailDb['id'] !== (int)$user->getId()) {
+                return ['error' => "Email ja cadastrado!"];
+            }
         }
 
 
-
-
-
+        $this->userRepository->UpdateUserAdminRepository($user);
         return ["sucess" => "Dados atualizados com sucesso!"];
     }
 
@@ -103,9 +125,8 @@ class UsersServices
             return ["error" => "Preencha os campos vazios"];
         }
 
-        $userRepository = new UsersRepository();
         // VERIFICA SE USUARIO EXISTE NO BANCO DE DADOS
-        $userDb = $userRepository->VerifyUserData("username", $user->getUsername());
+        $userDb = $this->userRepository->VerifyUserData("username", $user->getUsername());
 
         // SE USUARIO NAO EXISTE RETORNA INVALIDO
         if (!$userDb) {

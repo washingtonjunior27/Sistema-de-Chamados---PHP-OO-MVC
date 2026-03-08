@@ -28,6 +28,9 @@ switch ($route) {
     case "/users":
         $pagesController->UsersPageController();
         break;
+    case "/chamados":
+        $pagesController->ChamadosPageController();
+        break;
     default:
         $pagesController->LoginPageController();
         break;
