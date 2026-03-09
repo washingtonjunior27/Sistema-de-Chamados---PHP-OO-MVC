@@ -39,6 +39,15 @@ class UsersRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // SQL PARA BUSCAR APENAS OS ATENDENTES
+    public function ReadAtendentesRepository()
+    {
+        $sql = "SELECT id, name FROM users WHERE role = 'atendente'";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // SQL PARA BUSCAR USUARIOS DIGITADOS NA BARRA DE BUSCA
     public function SearchUserRepository($search)
     {

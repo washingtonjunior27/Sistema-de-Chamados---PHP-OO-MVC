@@ -3,23 +3,27 @@
 require_once __DIR__ . "/../models/Chamados.php";
 require_once __DIR__ . "/../services/ChamadosServices.php";
 require_once __DIR__ . "/../repositories/ChamadosRepository.php";
+require_once __DIR__ . "/../repositories/UsersRepository.php";
 
 class ChamadosController
 {
     private $chamado;
     private $chamadoService;
     private $chamadoRepository;
+    private $usersRepository;
 
     public function __construct()
     {
         $this->chamado = new Chamados();
         $this->chamadoService = new ChamadosServices();
-        $this->chamadoRepository = new ChamadosRepository;
+        $this->chamadoRepository = new ChamadosRepository();
+        $this->usersRepository = new UsersRepository();
     }
 
     public function ChamadosReadController()
     {
         $chamados = $this->chamadoRepository->ReadChamadosRepository();
+        $atendentes = $this->usersRepository->ReadAtendentesRepository();
         require __DIR__ . "/../views/app/chamados.php";
     }
 
@@ -45,6 +49,23 @@ class ChamadosController
         }
 
         $_SESSION['sucess'] = $result['sucess'];
+        header("location: " . BASE_URL . "index.php?route=/chamados");
+        exit;
+    }
+
+    public function SelectAtendenteController()
+    {
+        $this->chamado->setId_atendente(trim($_POST['atendente_chamado'] ?? ""));
+        $this->chamado->setStatus_chamado("Em Atendimento");
+        $this->chamado->setId_chamado($_POST['id_chamado']);
+
+        $this->chamadoRepository->UpdateAtendenteRepository(
+            $this->chamado->getId_atendente(),
+            $this->chamado->getStatus_chamado(),
+            $this->chamado->getId_chamado()
+        );
+
+        $_SESSION['sucess'] = "Atendente designado para o chamado com sucesso!";
         header("location: " . BASE_URL . "index.php?route=/chamados");
         exit;
     }

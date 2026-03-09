@@ -20,6 +20,11 @@
                                 <a class="nav-link text-light" href="<?= BASE_URL ?>index.php?route=/users">Usuarios</a>
                             </li>
                         <?php } ?>
+                        <?php if ($_SESSION['user']['role'] === "atendente") { ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" href="#">Atendimentos</a>
+                            </li>
+                        <?php } ?>
 
 
                         <li class="nav-item">

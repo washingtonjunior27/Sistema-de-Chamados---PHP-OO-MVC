@@ -64,6 +64,10 @@ class PagesController
             exit;
         }
 
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $this->chamadosController->SelectAtendenteController();
+        }
+
         require __DIR__ . "/../views/layouts/auth/headerLogin.php";
         require __DIR__ . "/../views/layouts/app/header.php";
         $this->chamadosController->ChamadosReadController();

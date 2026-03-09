@@ -29,7 +29,6 @@
     <div class="table-responsive">
         <table class="table table-bordered border-black mobile-nowrap">
             <thead>
-
                 <tr>
                     <th scope="col">Usuário</th>
                     <th scope="col">Titulo</th>
@@ -41,9 +40,7 @@
                     <?php } else { ?>
                         <th scope="col">Ações</th>
                     <?php } ?>
-
                 </tr>
-
             </thead>
             <tbody>
                 <?php foreach ($chamados as $chamado) { ?>
@@ -66,13 +63,17 @@
                             <!-- DESIGNAR ATENDENTE CASO NAO TENHA AINDA -->
                             <?php if (!$chamado['id_atendente']) { ?>
                                 <td class="text-center">
-                                    <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
+                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
+                                        <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
+                                    </button>
                                 </td>
 
                                 <!-- REDESIGNAR ATENDENTE CASO JA TENHA -->
                             <?php } else { ?>
                                 <td class="text-center">
-                                    <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
+                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
+                                        <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
+                                    </button>
                                 </td>
                             <?php } ?>
 
@@ -97,6 +98,11 @@
             </tbody>
         </table>
     </div>
+
+
+    <?php foreach ($chamados as $chamado) {
+        require __DIR__ . "/../auth/selectAtendente.php";
+    } ?>
 
 
     <nav aria-label="Page navigation example" class="align-self-center mt-3">

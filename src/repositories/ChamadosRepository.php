@@ -33,11 +33,25 @@ class ChamadosRepository
 
     public function ReadChamadosRepository()
     {
-        $sql = "SELECT c.*, u.name AS user_name, a.name AS atendente_name FROM chamados AS c 
+        $sql = "SELECT c.*, u.name AS user_name, a.name AS atendente_name, u.role AS user_role FROM chamados AS c 
                 INNER JOIN users AS u ON c.id_user = u.id
                 LEFT JOIN users AS a ON c.id_atendente = a.id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function UpdateAtendenteRepository($id_atendente, $status_chamado, $id_chamado)
+    {
+        $sql = "UPDATE chamados SET id_atendente = :id_atendente, status_chamado = :status_chamado
+        WHERE id_chamado = :id_chamado";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(
+            [
+                ":id_atendente" => $id_atendente,
+                ":status_chamado" => $status_chamado,
+                ":id_chamado" => $id_chamado
+            ]
+        );
     }
 }
