@@ -69,4 +69,30 @@ class ChamadosController
         header("location: " . BASE_URL . "index.php?route=/chamados");
         exit;
     }
+
+    public function EndChamadoController()
+    {
+        $this->chamado->setId_chamado($_POST['id_chamado']);
+        $this->chamado->setStatus_chamado("Finalizado");
+
+        $this->chamadoRepository->EndChamadoRepository(
+            $this->chamado->getStatus_chamado(),
+            $this->chamado->getId_chamado()
+        );
+
+        $_SESSION['sucess'] = "Chamado encerrado com sucesso!";
+        header("location: " . BASE_URL . "index.php?route=/chamados");
+        exit;
+    }
+
+    public function DeleteChamadoController()
+    {
+        $this->chamado->setId_chamado($_POST['id_chamado']);
+
+        $this->chamadoRepository->DeleteChamadoRepository($this->chamado->getId_chamado());
+
+        $_SESSION['sucess'] = "Chamado excluido com sucesso!";
+        header("location: " . BASE_URL . "index.php?route=/chamados");
+        exit;
+    }
 }

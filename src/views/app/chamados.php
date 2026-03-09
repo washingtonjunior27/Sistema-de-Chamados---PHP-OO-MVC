@@ -27,7 +27,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-bordered border-black mobile-nowrap">
+        <table class="table table-bordered border-black mobile-nowrap align-middle">
             <thead>
                 <tr>
                     <th scope="col">Usuário</th>
@@ -43,55 +43,93 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($chamados as $chamado) { ?>
-                    <!--  -->
-                    <tr>
-                        <td class="chamado-name"><?= $chamado['user_name'] ?></td>
-                        <td class="chamado-title"><?= $chamado['title_chamado']; ?></td>
-                        <td class="chamado-desc text-justify"><?= $chamado['message_chamado']; ?></td>
-                        <td class="chamado-atend"><?= $chamado['status_chamado']; ?></td>
-                        <?php if (!$chamado['id_atendente']) { ?>
-                            <td>Sem atendente</td>
-                        <?php } else { ?>
-                            <td><?= $chamado['atendente_name'] ?></td>
-                        <?php } ?>
-                        <?php if ($_SESSION['user']['role'] === "admin") { ?>
-                            <td class="text-center">
-                                <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
-                            </td>
+                <?php
+                $itemChamados = false;
+                foreach ($chamados as $chamado) {
+                    if (($chamado['id_user'] === $_SESSION['user']['id']) ||
+                        ($_SESSION['user']['role'] === "admin")
+                    ) {
+                        $itemChamados = true;
+                ?>
 
-                            <!-- DESIGNAR ATENDENTE CASO NAO TENHA AINDA -->
+                        <tr>
+                            <td class="chamado-name"><?= $chamado['user_name'] ?></td>
+                            <td class="chamado-title"><?= $chamado['title_chamado']; ?></td>
+                            <td class="chamado-desc text-justify"><?= $chamado['message_chamado']; ?></td>
+                            <td class="chamado-atend"><?= $chamado['status_chamado']; ?></td>
                             <?php if (!$chamado['id_atendente']) { ?>
-                                <td class="text-center">
-                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
-                                        <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
-                                    </button>
-                                </td>
+                                <td>Sem atendente</td>
+                            <?php } else { ?>
+                                <td><?= $chamado['atendente_name'] ?></td>
+                            <?php } ?>
+                            <?php if ($_SESSION['user']['role'] === "admin") {
+                                if ($chamado['status_chamado'] == "Finalizado") { ?>
+                                    <td class="text-center" colspan="3">
+                                        <i class="fa-solid fa-eye text-primary fs-4"></i>
+                                    </td>
+                                <?php } else { ?>
+                                    <td class="text-center">
+                                        <i class="fa-solid fa-eye text-primary fs-4"></i>
+                                    </td>
+                                <?php } ?>
 
-                                <!-- REDESIGNAR ATENDENTE CASO JA TENHA -->
+                                <!-- DESIGNAR ATENDENTE CASO NAO TENHA AINDA -->
+
+                                <?php
+                                if ($chamado['status_chamado'] != "Finalizado") {
+                                    if (!$chamado['id_atendente']) { ?>
+                                        <td class="text-center">
+                                            <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
+                                                <i class="fa-solid fa-hand-pointer text-black fs-4"></i>
+                                            </button>
+                                        </td>
+
+                                        <!-- REDESIGNAR ATENDENTE CASO JA TENHA -->
+                                    <?php } else { ?>
+                                        <td class="text-center">
+                                            <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
+                                                <i class="fa-solid fa-arrows-rotate text-black fs-4"></i>
+                                            </button>
+                                        </td>
+                                    <?php } ?>
+
+
+                                    <td class="text-center">
+                                        <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#endChamado<?= $chamado['id_chamado']; ?>">
+                                            <i class="fa-solid fa-check text-success fs-4"></i>
+                                        </button>
+
+                                    </td>
+                                    <td class="text-center">
+                                        <i class="fa-solid fa-pen-to-square text-warning fs-4"></i>
+                                    </td>
+                                <?php }
+                                if ($chamado['status_chamado'] == "Finalizado") { ?>
+                                    <td class="text-center" colspan="2">
+                                        <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#deleteChamado<?= $chamado['id_chamado']; ?>">
+                                            <i class="fa-solid fa-trash-can text-danger fs-4"></i>
+                                        </button>
+                                    </td>
+                                <?php } else { ?>
+                                    <td class="text-center">
+                                        <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#deleteChamado<?= $chamado['id_chamado']; ?>">
+                                            <i class="fa-solid fa-trash-can text-danger fs-4"></i>
+                                        </button>
+                                    </td>
+                                <?php } ?>
                             <?php } else { ?>
                                 <td class="text-center">
-                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
-                                        <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
-                                    </button>
+                                    <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
                                 </td>
                             <?php } ?>
+                        </tr>
 
+                <?php }
+                } ?>
 
-                            <td class="text-center">
-                                <i class="fa-solid fa-check text-success fs-4 mt-1"></i>
-                            </td>
-                            <td class="text-center">
-                                <i class="fa-solid fa-pen-to-square text-warning fs-4 mt-1"></i>
-                            </td>
-                            <td class="text-center">
-                                <i class="fa-solid fa-trash-can text-danger fs-4 mt-1"></i>
-                            </td>
-                        <?php } else { ?>
-                            <td class="text-center">
-                                <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
-                            </td>
-                        <?php } ?>
+                <?php if ($itemChamados === false) { ?>
+                    <tr>
+                        <td colspan="6" class="text-center">Nenhum chamado para exibir!</td>
                     </tr>
                 <?php } ?>
 
@@ -99,9 +137,10 @@
         </table>
     </div>
 
-
     <?php foreach ($chamados as $chamado) {
         require __DIR__ . "/../auth/selectAtendente.php";
+        require __DIR__ . "/../auth/endChamado.php";
+        require __DIR__ . "/../auth/deleteChamado.php";
     } ?>
 
 

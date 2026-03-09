@@ -9,6 +9,7 @@
             <div class="modal-body">
                 <form action="<?= BASE_URL ?>index.php?route=/chamados" method="POST">
                     <div class="mb-4">
+                        <input type="hidden" name="action" value="selectAtendente">
                         <input type="hidden" name="id_chamado" value="<?= $chamado['id_chamado'] ?>">
                         <label for="role" class="form-label">Atendente</label>
                         <select class="form-select" name="atendente_chamado" id="role">

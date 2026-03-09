@@ -65,7 +65,15 @@ class PagesController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $this->chamadosController->SelectAtendenteController();
+            if ($_POST['action'] === "selectAtendente") {
+                $this->chamadosController->SelectAtendenteController();
+            }
+            if ($_POST['action'] === "endChamado") {
+                $this->chamadosController->EndChamadoController();
+            }
+            if ($_POST['action'] === "deleteChamado") {
+                $this->chamadosController->DeleteChamadoController();
+            }
         }
 
         require __DIR__ . "/../views/layouts/auth/headerLogin.php";

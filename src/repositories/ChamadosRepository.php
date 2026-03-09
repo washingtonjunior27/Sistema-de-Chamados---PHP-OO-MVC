@@ -12,7 +12,7 @@ class ChamadosRepository
         $this->pdo = $con->Connect();
     }
 
-    public function CreateChamadosRepository(Chamados $chamado)
+    public function CreateChamadoRepository(Chamados $chamado)
     {
         $sql = "INSERT INTO chamados (title_chamado, message_chamado, status_chamado, 
         priority_chamado, created_at, id_user, id_atendente) 
@@ -53,5 +53,22 @@ class ChamadosRepository
                 ":id_chamado" => $id_chamado
             ]
         );
+    }
+
+    public function EndChamadoRepository($status_chamado, $id_chamado)
+    {
+        $sql = "UPDATE chamados SET status_chamado = :status_chamado WHERE id_chamado = :id_chamado";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ":status_chamado" => $status_chamado,
+            ":id_chamado" => $id_chamado
+        ]);
+    }
+
+    public function DeleteChamadoRepository($id_chamado)
+    {
+        $sql = "DELETE FROM chamados WHERE id_chamado = :id_chamado";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([":id_chamado" => $id_chamado]);
     }
 }
