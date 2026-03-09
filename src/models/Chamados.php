@@ -2,111 +2,111 @@
 
 class Chamados
 {
-    private int $id_chamados;
-    private string $title_chamados;
-    private string $message_chamados;
-    private string $status_chamados; //Aberto, em atendimento, fechado
-    private string $priority_chamados; //Urgente, alta, media, baixa
+    private int $id_chamado;
+    private string $title_chamado;
+    private string $message_chamado;
+    private string $status_chamado; //Aberto, em atendimento, fechado
+    private string $priority_chamado; //Urgente, alta, media, baixa
     private $created_at;
     private int $id_user; //quem abriu chamado
-    private int $id_atendente; //quem está atendendo
+    private ?int $id_atendente = null; //quem está atendendo
 
     /**
-     * Get the value of id_chamados
+     * Get the value of id_chamado
      */
-    public function getId_chamados()
+    public function getId_chamado()
     {
-        return $this->id_chamados;
+        return $this->id_chamado;
     }
 
     /**
-     * Set the value of id_chamados
+     * Set the value of id_chamado
      *
      * @return  self
      */
-    public function setId_chamados($id_chamados)
+    public function setId_chamado($id_chamado)
     {
-        $this->id_chamados = $id_chamados;
+        $this->id_chamado = $id_chamado;
 
         return $this;
     }
 
     /**
-     * Get the value of title_chamados
+     * Get the value of title_chamado
      */
-    public function getTitle_chamados()
+    public function getTitle_chamado()
     {
-        return $this->title_chamados;
+        return $this->title_chamado;
     }
 
     /**
-     * Set the value of title_chamados
+     * Set the value of title_chamado
      *
      * @return  self
      */
-    public function setTitle_chamados($title_chamados)
+    public function setTitle_chamado($title_chamado)
     {
-        $this->title_chamados = $title_chamados;
+        $this->title_chamado = $title_chamado;
 
         return $this;
     }
 
     /**
-     * Get the value of message_chamados
+     * Get the value of message_chamado
      */
-    public function getMessage_chamados()
+    public function getMessage_chamado()
     {
-        return $this->message_chamados;
+        return $this->message_chamado;
     }
 
     /**
-     * Set the value of message_chamados
+     * Set the value of message_chamado
      *
      * @return  self
      */
-    public function setMessage_chamados($message_chamados)
+    public function setMessage_chamado($message_chamado)
     {
-        $this->message_chamados = $message_chamados;
+        $this->message_chamado = $message_chamado;
 
         return $this;
     }
 
     /**
-     * Get the value of status_chamados
+     * Get the value of status_chamado
      */
-    public function getStatus_chamados()
+    public function getStatus_chamado()
     {
-        return $this->status_chamados;
+        return $this->status_chamado;
     }
 
     /**
-     * Set the value of status_chamados
+     * Set the value of status_chamado
      *
      * @return  self
      */
-    public function setStatus_chamados($status_chamados)
+    public function setStatus_chamado($status_chamado)
     {
-        $this->status_chamados = $status_chamados;
+        $this->status_chamado = $status_chamado;
 
         return $this;
     }
 
     /**
-     * Get the value of priority_chamados
+     * Get the value of priority_chamado
      */
-    public function getPriority_chamados()
+    public function getPriority_chamado()
     {
-        return $this->priority_chamados;
+        return $this->priority_chamado;
     }
 
     /**
-     * Set the value of priority_chamados
+     * Set the value of priority_chamado
      *
      * @return  self
      */
-    public function setPriority_chamados($priority_chamados)
+    public function setPriority_chamado($priority_chamado)
     {
-        $this->priority_chamados = $priority_chamados;
+        $this->priority_chamado = $priority_chamado;
 
         return $this;
     }
@@ -132,19 +132,19 @@ class Chamados
     }
 
     /**
-     * Get the value of id_usuario
+     * Get the value of id_user
      */
-    public function getId_usuario()
+    public function getId_user()
     {
         return $this->id_user;
     }
 
     /**
-     * Set the value of id_usuario
+     * Set the value of id_user
      *
      * @return  self
      */
-    public function setId_usuario($id_user)
+    public function setId_user($id_user)
     {
         $this->id_user = $id_user;
 

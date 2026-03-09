@@ -31,6 +31,9 @@ switch ($route) {
     case "/chamados":
         $pagesController->ChamadosPageController();
         break;
+    case "/openChamado":
+        $pagesController->OpenChamadoPageController();
+        break;
     default:
         $pagesController->LoginPageController();
         break;

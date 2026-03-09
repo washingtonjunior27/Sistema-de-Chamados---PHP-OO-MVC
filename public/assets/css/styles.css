@@ -62,9 +62,12 @@
     -webkit-box-orient: vertical;
     overflow: auto;
 }
+.chamado-name{
+    min-width: 170px;
+}
 .chamado-atend{
     min-width: 154px;
 }
 .chamado-title{
-    min-width: 220px;
+    min-width: 200px;
 }

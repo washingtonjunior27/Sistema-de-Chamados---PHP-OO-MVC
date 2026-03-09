@@ -16,14 +16,12 @@ class PagesController
 
     public function LoginPageController()
     {
-
-        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
-        require __DIR__ . "/../views/auth/login.php";
-
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $this->userController->LoginUserController();
         }
 
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../views/auth/login.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";
     }
 
@@ -36,13 +34,12 @@ class PagesController
 
     public function RegisterPageController()
     {
-        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
-        require __DIR__ . "/../views/auth/register.php";
-
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $this->userController->CreateUserController();
         }
 
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../views/auth/register.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";
     }
 
@@ -70,6 +67,24 @@ class PagesController
         require __DIR__ . "/../views/layouts/auth/headerLogin.php";
         require __DIR__ . "/../views/layouts/app/header.php";
         $this->chamadosController->ChamadosReadController();
+        require __DIR__ . "/../views/layouts/app/footer.php";
+        require __DIR__ . "/../views/layouts/auth/footerLogin.php";
+    }
+
+    public function OpenChamadoPageController()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location: " . BASE_URL . "index.php?route=/login");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $this->chamadosController->OpenChamadoController();
+        }
+
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../views/layouts/app/header.php";
+        require __DIR__ . "/../views/app/openChamado.php";
         require __DIR__ . "/../views/layouts/app/footer.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";
     }

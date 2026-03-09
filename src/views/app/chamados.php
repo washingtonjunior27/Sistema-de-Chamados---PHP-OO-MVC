@@ -1,5 +1,5 @@
 <div class="container flex-fill d-flex flex-column justify-content-center">
-    <h3 class="fs-3 text-center mb-5">Chamados</h3>
+    <h3 class="fs-3 text-center mb-5 mt-3">Chamados</h3>
 
     <?php if (isset($_SESSION['sucess'])) { ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -18,7 +18,7 @@
     } ?>
 
     <div class="search-form d-flex justify-content-between align-items-center gap-4 mb-4">
-        <a href="" class="btn btn-primary">Abrir Chamado</a>
+        <a href="<?= BASE_URL ?>index.php?route=/openChamado" class="btn btn-primary">Abrir Chamado</a>
         <form class="d-flex flex-fill" method="GET" action="<?= BASE_URL ?>index.php">
             <input type="hidden" name="route" value="/users">
             <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
@@ -29,6 +29,7 @@
     <div class="table-responsive">
         <table class="table table-bordered border-black mobile-nowrap">
             <thead>
+
                 <tr>
                     <th scope="col">Usuário</th>
                     <th scope="col">Titulo</th>
@@ -37,148 +38,62 @@
                     <th scope="col">Atendente</th>
                     <?php if ($_SESSION['user']['role'] === "admin") { ?>
                         <th scope="col" colspan="5">Ações</th>
+                    <?php } else { ?>
+                        <th scope="col">Ações</th>
                     <?php } ?>
 
                 </tr>
+
             </thead>
             <tbody>
+                <?php foreach ($chamados as $chamado) { ?>
+                    <!--  -->
+                    <tr>
+                        <td class="chamado-name"><?= $chamado['user_name'] ?></td>
+                        <td class="chamado-title"><?= $chamado['title_chamado']; ?></td>
+                        <td class="chamado-desc text-justify"><?= $chamado['message_chamado']; ?></td>
+                        <td class="chamado-atend"><?= $chamado['status_chamado']; ?></td>
+                        <?php if (!$chamado['id_atendente']) { ?>
+                            <td>Sem atendente</td>
+                        <?php } else { ?>
+                            <td><?= $chamado['atendente_name'] ?></td>
+                        <?php } ?>
+                        <?php if ($_SESSION['user']['role'] === "admin") { ?>
+                            <td class="text-center">
+                                <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
+                            </td>
 
-                <!--  -->
-                <tr>
-                    <td>washington.junior</td>
-                    <td class="chamado-title">Problema na Impressora</td>
-                    <td class="chamado-desc text-justify">Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime</td>
-                    <td class="chamado-atend">Em atendimento</td>
-                    <td>sarah.penafort</td>
-                    <?php if ($_SESSION['user']['role'] === "admin") { ?>
-                        <td class="text-center">
-                            <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
-                        </td>
-                        <!-- <td class="text-center">
-                            <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
-                        </td> -->
-                        <td class="text-center">
-                            <i class="fa-solid fa-check text-success fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square text-warning fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-trash-can text-danger fs-4 mt-1"></i>
-                        </td>
-                    <?php } ?>
-                </tr>
-                <tr>
-                    <td>washington.junior</td>
-                    <td class="chamado-title">Problema na Impressora</td>
-                    <td class="chamado-desc text-justify">Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime</td>
-                    <td class="chamado-atend">Em atendimento</td>
-                    <td>sarah.penafort</td>
-                    <?php if ($_SESSION['user']['role'] === "admin") { ?>
-                        <td class="text-center">
-                            <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
-                        </td>
-                        <!-- <td class="text-center">
-                            <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
-                        </td> -->
-                        <td class="text-center">
-                            <i class="fa-solid fa-check text-success fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square text-warning fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-trash-can text-danger fs-4 mt-1"></i>
-                        </td>
-                    <?php } ?>
-                </tr>
-                <tr>
-                    <td>washington.junior</td>
-                    <td class="chamado-title">Problema na Impressora</td>
-                    <td class="chamado-desc text-justify">Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime</td>
-                    <td class="chamado-atend">Em atendimento</td>
-                    <td>sarah.penafort</td>
-                    <?php if ($_SESSION['user']['role'] === "admin") { ?>
-                        <td class="text-center">
-                            <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
-                        </td>
-                        <!-- <td class="text-center">
-                            <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
-                        </td> -->
-                        <td class="text-center">
-                            <i class="fa-solid fa-check text-success fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square text-warning fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-trash-can text-danger fs-4 mt-1"></i>
-                        </td>
-                    <?php } ?>
-                </tr>
-                <tr>
-                    <td>washington.junior</td>
-                    <td class="chamado-title">Problema na Impressora</td>
-                    <td class="chamado-desc text-justify">Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime</td>
-                    <td class="chamado-atend">Em atendimento</td>
-                    <td>sarah.penafort</td>
-                    <?php if ($_SESSION['user']['role'] === "admin") { ?>
-                        <td class="text-center">
-                            <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
-                        </td>
-                        <!-- <td class="text-center">
-                            <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
-                        </td> -->
-                        <td class="text-center">
-                            <i class="fa-solid fa-check text-success fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square text-warning fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-trash-can text-danger fs-4 mt-1"></i>
-                        </td>
-                    <?php } ?>
-                </tr>
-                <tr>
-                    <td>washington.junior</td>
-                    <td class="chamado-title">Problema na Impressora</td>
-                    <td class="chamado-desc text-justify">Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime Estou tentando Imprimir mas o Papel está travanado e não imprime</td>
-                    <td class="chamado-atend">Em atendimento</td>
-                    <td>sarah.penafort</td>
-                    <?php if ($_SESSION['user']['role'] === "admin") { ?>
-                        <td class="text-center">
-                            <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
-                        </td>
-                        <!-- <td class="text-center">
-                            <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
-                        </td> -->
-                        <td class="text-center">
-                            <i class="fa-solid fa-check text-success fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-pen-to-square text-warning fs-4 mt-1"></i>
-                        </td>
-                        <td class="text-center">
-                            <i class="fa-solid fa-trash-can text-danger fs-4 mt-1"></i>
-                        </td>
-                    <?php } ?>
-                </tr>
+                            <!-- DESIGNAR ATENDENTE CASO NAO TENHA AINDA -->
+                            <?php if (!$chamado['id_atendente']) { ?>
+                                <td class="text-center">
+                                    <i class="fa-solid fa-hand-pointer text-black fs-4 mt-1"></i>
+                                </td>
+
+                                <!-- REDESIGNAR ATENDENTE CASO JA TENHA -->
+                            <?php } else { ?>
+                                <td class="text-center">
+                                    <i class="fa-solid fa-arrows-rotate text-black fs-4 mt-1"></i>
+                                </td>
+                            <?php } ?>
+
+
+                            <td class="text-center">
+                                <i class="fa-solid fa-check text-success fs-4 mt-1"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa-solid fa-pen-to-square text-warning fs-4 mt-1"></i>
+                            </td>
+                            <td class="text-center">
+                                <i class="fa-solid fa-trash-can text-danger fs-4 mt-1"></i>
+                            </td>
+                        <?php } else { ?>
+                            <td class="text-center">
+                                <i class="fa-solid fa-eye text-primary fs-4 mt-1"></i>
+                            </td>
+                        <?php } ?>
+                    </tr>
+                <?php } ?>
+
             </tbody>
         </table>
     </div>
