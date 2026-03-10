@@ -46,6 +46,21 @@ class ChamadosRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function SearchChamadoRepository($search)
+    {
+        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                WHERE u.username LIKE :search OR c.title_chamado LIKE :search 
+                        OR c.message_chamado LIKE :search OR c.status_chamado LIKE :search 
+                        OR c.priority_chamado LIKE :search OR a.username LIKE :search
+                ORDER BY c.created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $searchResult = "%" . $search . "%";
+        $stmt->execute([":search" => $searchResult]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function TrackChamadoRepository($id_chamado)
     {
         $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role 

@@ -60,7 +60,7 @@ class UsersRepository
                 OR email LIKE :search OR role LIKE :search OR status LIKE :search";
         $stmt = $this->pdo->prepare($sql);
         $searchResult = "%" . $search . "%";
-        $stmt->execute(["search" => $searchResult]);
+        $stmt->execute([":search" => $searchResult]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
