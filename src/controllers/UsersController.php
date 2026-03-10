@@ -3,16 +3,19 @@
 require_once __DIR__ . "/../services/UsersServices.php";
 require_once __DIR__ . "/../models/Users.php";
 require_once __DIR__ . "/../repositories/UsersRepository.php";
+require_once __DIR__ . "/../repositories/ChamadosRepository.php";
 
 class UsersController
 {
     private $userRepository;
+    private $chamadosRepository;
     private $usersService;
     private $user;
 
     public function __construct()
     {
         $this->userRepository = new UsersRepository();
+        $this->chamadosRepository = new ChamadosRepository();
         $this->usersService = new UsersServices();
         $this->user = new Users();
     }
@@ -33,13 +36,13 @@ class UsersController
         // SE SERVICES RETORNAR ERROR
         if (isset($result['error'])) {
             $_SESSION['error'] = $result['error'];
-            header("location: " . BASE_URL . "index.php?route=/register");
+            header("location: " . BASE_URL . "index.php?route=/Register");
             exit;
         }
 
         // SE SERVICES RETORNAR SUCESSO
         $_SESSION['sucess'] = $result['sucess'];
-        header("location: " . BASE_URL . "index.php?route=/login");
+        header("location: " . BASE_URL . "index.php?route=/Login");
         exit;
     }
 
@@ -60,6 +63,7 @@ class UsersController
     public function HomeReadController()
     {
         $users = $this->userRepository->ReadUserRepository();
+        $chamados = $this->chamadosRepository->ReadChamadosRepository();
         require __DIR__ . "/../views/app/home.php";
     }
 
@@ -78,14 +82,14 @@ class UsersController
         // SE SERVICE RETORNAR ERROR
         if (isset($result["error"])) {
             $_SESSION['error'] = $result['error'];
-            header("location:" . BASE_URL . "index.php?route=/profile");
+            header("location:" . BASE_URL . "index.php?route=/Profile");
             exit;
         }
 
         // SE SERVICE RETORNAR SUCESS
         $_SESSION['sucess'] = $result['sucess'];
         unset($_SESSION['user']);
-        header("location:" . BASE_URL . "index.php?route=/login");
+        header("location:" . BASE_URL . "index.php?route=/Login");
         exit;
     }
 
@@ -103,12 +107,12 @@ class UsersController
         // SE SERVICE RETORNAR ERROR
         if (isset($result["error"])) {
             $_SESSION['error'] = $result['error'];
-            header("location:" . BASE_URL . "index.php?route=/users");
+            header("location:" . BASE_URL . "index.php?route=/Users");
             exit;
         }
 
         $_SESSION['sucess'] = $result['sucess'];
-        header("location:" . BASE_URL . "index.php?route=/users");
+        header("location:" . BASE_URL . "index.php?route=/Users");
         exit;
     }
 
@@ -121,20 +125,20 @@ class UsersController
             $this->userRepository->StatusUserRepository($id, 1);
 
             $_SESSION['sucess'] = "Usuário reativado com sucesso!";
-            header("location:" . BASE_URL . "index.php?route=/users");
+            header("location:" . BASE_URL . "index.php?route=/Users");
             exit;
         } else {
             $this->userRepository->StatusUserRepository($id, 2);
 
             if ($_SESSION['user']['role'] === "admin") {
                 $_SESSION['sucess'] = "Usuário desativado com sucesso!";
-                header("location:" . BASE_URL . "index.php?route=/users");
+                header("location:" . BASE_URL . "index.php?route=/Users");
                 exit;
             }
 
             $_SESSION['sucess'] = "Usuário desativado com sucesso!";
             unset($_SESSION['user']);
-            header("location:" . BASE_URL . "index.php?route=/login");
+            header("location:" . BASE_URL . "index.php?route=/Login");
             exit;
         }
     }
@@ -166,7 +170,7 @@ class UsersController
         // SE SERVICE RETORNAR ERRO EXIBE MENSAGEM
         if (isset($result['error'])) {
             $_SESSION['error'] = $result['error'];
-            header("location:" . BASE_URL . "index.php?route=/login");
+            header("location:" . BASE_URL . "index.php?route=/Login");
             exit;
         }
 
@@ -182,7 +186,7 @@ class UsersController
         ];
 
         // FINALIZA PROCESSO DE LOGIN
-        header("location:" . BASE_URL . "index.php?route=/home");
+        header("location:" . BASE_URL . "index.php?route=/Home");
         exit;
     }
 }

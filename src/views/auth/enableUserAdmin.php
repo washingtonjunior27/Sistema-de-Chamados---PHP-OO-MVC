@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <p class="mt-3">Deseja reativar a conta do usuario <?= $user['username'] ?>?</p>
             </div>
-            <form class="modal-footer" action="<?= BASE_URL ?>index.php?route=/users" method="POST">
+            <form class="modal-footer" action="<?= BASE_URL ?>index.php?route=/Users" method="POST">
                 <input type="hidden" name="action" value="enableUserAdmin">
                 <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

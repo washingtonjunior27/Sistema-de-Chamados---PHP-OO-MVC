@@ -1,4 +1,4 @@
-<div class="container flex-fill d-flex flex-column justify-content-center gap-5">
+<div class="container flex-fill d-flex flex-column justify-content-center gap-4">
     <h3 class="fs-3 text-center">Usuários</h3>
 
     <?php if (isset($_SESSION['sucess'])) { ?>
@@ -18,7 +18,7 @@
     } ?>
 
     <form class="d-flex" method="GET" action="<?= BASE_URL ?>index.php">
-        <input type="hidden" name="route" value="/users">
+        <input type="hidden" name="route" value="/Users">
         <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
         <button class="btn btn-outline-success" type="submit">Search</button>
     </form>

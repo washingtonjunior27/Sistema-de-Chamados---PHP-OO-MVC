@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="<?= BASE_URL ?>index.php?route=/chamados" method="POST">
+                <form action="<?= BASE_URL ?>index.php?route=/Chamados" method="POST">
                     <div class="mb-4">
                         <input type="hidden" name="action" value="selectAtendente">
                         <input type="hidden" name="id_chamado" value="<?= $chamado['id_chamado'] ?>">

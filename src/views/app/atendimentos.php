@@ -1,5 +1,5 @@
 <div class="container flex-fill d-flex flex-column justify-content-center gap-4">
-    <h3 class="fs-3 text-center mb-5 mt-3">Chamados</h3>
+    <h3 class="fs-3 text-center mb-5 mt-3">Atendimentos</h3>
 
     <?php if (isset($_SESSION['sucess'])) { ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -18,7 +18,6 @@
     } ?>
 
     <div class="search-form d-flex justify-content-between align-items-center gap-4 mb-4">
-        <a href="<?= BASE_URL ?>index.php?route=/OpenChamado" class="btn btn-primary">Abrir Chamado</a>
         <form class="d-flex flex-fill" method="GET" action="<?= BASE_URL ?>index.php">
             <input type="hidden" name="route" value="/users">
             <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
@@ -31,47 +30,44 @@
             <thead>
                 <tr>
                     <th scope="col">Ver</th>
-                    <?php if ($_SESSION['user']['role'] === "atendente") { ?>
-                        <th scope="col">Atender</th>
-                    <?php } ?>
+                    <th scope="col">Finalizar</th>
                     <th scope="col">Usuário</th>
                     <th scope="col">Titulo</th>
                     <th scope="col">Mensagem</th>
                     <th scope="col">Status</th>
                     <th scope="col">Prioridade</th>
                     <th scope="col">Atendente</th>
-                    <?php if ($_SESSION['user']['role'] === "admin") { ?>
-                        <th scope="col" colspan="3">Ações</th>
-                    <?php } ?>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $itemChamados = false;
                 foreach ($chamados as $chamado) {
-                    if ((($chamado['id_user'] === $_SESSION['user']['id']) || ($_SESSION['user']['role'] === "admin")) ||
-                        (($_SESSION['user']['role'] === "atendente") && ($chamado['status_chamado'] === "Aberto"))
-                    ) {
+                    if (($chamado['id_atendente'] === $_SESSION['user']['id'])) {
                         $itemChamados = true;
                 ?>
 
                         <tr>
                             <td class="text-center">
                                 <form action="<?= BASE_URL ?>index.php?route=/ViewChamado" method="POST">
-                                    <input type="hidden" name="action" value="viewChamado">
+                                    <input type="hidden" name="action" value="viewChamadoAtendimentos">
                                     <input type="hidden" name="id_chamado" value="<?= $chamado['id_chamado']; ?>">
                                     <button type="submit" class="btn p-0 btn-link text-success">
                                         <i class="fa-solid fa-eye text-primary fs-4"></i>
                                     </button>
                                 </form>
                             </td>
-                            <?php if ($_SESSION['user']['role'] === "atendente") { ?>
+
+                            <?php if ($chamado['status_chamado'] === "Finalizado") { ?>
+                                <td class="text-center"><i class="fa-solid fa-check text-secondary fs-4"></i></td>
+                            <?php } else { ?>
                                 <td class="text-center">
-                                    <button type="button" class="btn p-0 btn-link text-primary" data-bs-toggle="modal" data-bs-target="#responseChamado<?= $chamado['id_chamado']; ?>">
-                                        <i class="fa-solid fa-message fs-4"></i>
+                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#endChamadoAtendente<?= $chamado['id_chamado']; ?>">
+                                        <i class="fa-solid fa-check text-success fs-4"></i>
                                     </button>
                                 </td>
                             <?php } ?>
+
                             <td class="chamado-name"><?= $chamado['user_name'] ?></td>
                             <td class="chamado-title"><?= $chamado['title_chamado']; ?></td>
                             <td class="chamado-desc text-justify"><?= $chamado['message_chamado']; ?></td>
@@ -82,54 +78,7 @@
                             <?php } else { ?>
                                 <td><?= $chamado['atendente_name'] ?></td>
                             <?php } ?>
-
-                            <!-- AÇÕES -->
-                            <?php if (($_SESSION['user']['role'] === "admin") && ($chamado['status_chamado'] != "Finalizado")) { ?>
-                                <!-- FINALIZAR CHAMADO-->
-                                <td class="text-center">
-                                    <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#endChamado<?= $chamado['id_chamado']; ?>">
-                                        <i class="fa-solid fa-check text-success fs-4"></i>
-                                    </button>
-                                </td>
-                            <?php } ?>
-
-                            <?php if ($_SESSION['user']['role'] === "admin") {
-                                if ($chamado['status_chamado'] != "Finalizado") {
-                                    if (!$chamado['id_atendente']) { ?>
-                                        <td class="text-center">
-                                            <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
-                                                <i class="fa-solid fa-hand-pointer text-black fs-4"></i>
-                                            </button>
-                                        </td>
-
-                                        <!-- REDESIGNAR ATENDENTE CASO JA TENHA -->
-                                    <?php } else { ?>
-                                        <td class="text-center">
-                                            <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">
-                                                <i class="fa-solid fa-arrows-rotate text-black fs-4"></i>
-                                            </button>
-                                        </td>
-                                    <?php } ?>
-
-
-
-                                <?php }
-                                if ($chamado['status_chamado'] == "Finalizado") { ?>
-                                    <td class="text-center" colspan="3">
-                                        <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#deleteChamado<?= $chamado['id_chamado']; ?>">
-                                            <i class="fa-solid fa-trash-can text-danger fs-4"></i>
-                                        </button>
-                                    </td>
-                                <?php } else { ?>
-                                    <td class="text-center">
-                                        <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#deleteChamado<?= $chamado['id_chamado']; ?>">
-                                            <i class="fa-solid fa-trash-can text-danger fs-4"></i>
-                                        </button>
-                                    </td>
-                                <?php } ?>
-                            <?php } ?>
                         </tr>
-
                 <?php }
                 } ?>
 
@@ -144,10 +93,7 @@
     </div>
 
     <?php foreach ($chamados as $chamado) {
-        require __DIR__ . "/../auth/selectAtendente.php";
-        require __DIR__ . "/../auth/responseChamado.php";
-        require __DIR__ . "/../auth/endChamado.php";
-        require __DIR__ . "/../auth/deleteChamado.php";
+        require __DIR__ . "/../auth/endChamadoAtendente.php";
     } ?>
 
 

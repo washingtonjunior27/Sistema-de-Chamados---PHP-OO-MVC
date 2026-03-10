@@ -29,7 +29,7 @@ class PagesController
     {
         $_SESSION = [];
         session_destroy();
-        header("location:" . BASE_URL . "index.php?route=/login");
+        header("location:" . BASE_URL . "index.php?route=/Login");
     }
 
     public function RegisterPageController()
@@ -46,7 +46,7 @@ class PagesController
     public function HomePageController()
     {
         if (!isset($_SESSION['user'])) {
-            header("location: " . BASE_URL . "index.php?route=/login");
+            header("location: " . BASE_URL . "index.php?route=/Login");
             exit;
         }
 
@@ -60,13 +60,16 @@ class PagesController
     public function ChamadosPageController()
     {
         if (!isset($_SESSION['user'])) {
-            header("location: " . BASE_URL . "index.php?route=/login");
+            header("location: " . BASE_URL . "index.php?route=/Login");
             exit;
         }
 
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             if ($_POST['action'] === "selectAtendente") {
                 $this->chamadosController->SelectAtendenteController();
+            }
+            if ($_POST['action'] === "responseChamado") {
+                $this->chamadosController->ResponseChamadoController();
             }
             if ($_POST['action'] === "endChamado") {
                 $this->chamadosController->EndChamadoController();
@@ -86,7 +89,7 @@ class PagesController
     public function OpenChamadoPageController()
     {
         if (!isset($_SESSION['user'])) {
-            header("location: " . BASE_URL . "index.php?route=/login");
+            header("location: " . BASE_URL . "index.php?route=/Login");
             exit;
         }
 
@@ -105,7 +108,7 @@ class PagesController
     {
 
         if (!isset($_SESSION['user'])) {
-            header("location: " . BASE_URL . "index.php?route=/login");
+            header("location: " . BASE_URL . "index.php?route=/Login");
             exit;
         }
 
@@ -132,12 +135,12 @@ class PagesController
     public function UsersPageController()
     {
         if (!isset($_SESSION['user'])) {
-            header("location: " . BASE_URL . "index.php?route=/login");
+            header("location: " . BASE_URL . "index.php?route=/Login");
             exit;
         }
 
         if ($_SESSION['user']['role'] != "admin") {
-            header("location: " . BASE_URL . "index.php?route=/home");
+            header("location: " . BASE_URL . "index.php?route=/Home");
             exit;
         }
 
@@ -157,6 +160,48 @@ class PagesController
             $this->userController->ReadUserController();
         }
 
+        require __DIR__ . "/../views/layouts/app/footer.php";
+        require __DIR__ . "/../views/layouts/auth/footerLogin.php";
+    }
+
+    public function ViewChamadoPageController()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location: " . BASE_URL . "index.php?route=/Login");
+            exit;
+        }
+
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../views/layouts/app/header.php";
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $this->chamadosController->ViewChamadoController();
+        }
+
+        require __DIR__ . "/../views/layouts/app/footer.php";
+        require __DIR__ . "/../views/layouts/auth/footerLogin.php";
+    }
+
+    public function AtendimentosPageController()
+    {
+        if (!isset($_SESSION['user'])) {
+            header("location: " . BASE_URL . "index.php?route=/Login");
+            exit;
+        }
+        if ($_SESSION['user']['role'] === "user") {
+            header("location: " . BASE_URL . "index.php?route=/Home");
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if ($_POST['action'] === "endChamadoAtendente") {
+                $this->chamadosController->EndChamadoController();
+            }
+        }
+
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../views/layouts/app/header.php";
+        $this->chamadosController->AtendimentosReadController();
         require __DIR__ . "/../views/layouts/app/footer.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";
     }

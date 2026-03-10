@@ -8,7 +8,7 @@
                 <h1 class="fw-bold mb-4">LOGIN</h1>
                 <p class="text-black-50 mb-4">Por favor informe seu login e senha</p>
             </div>
-            <form action="<?= BASE_URL ?>index.php?route=/login" method="POST">
+            <form action="<?= BASE_URL ?>index.php?route=/Login" method="POST">
 
                 <?php if (isset($_SESSION['sucess'])) { ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -45,7 +45,7 @@
                 <i class="fa-brands fa-google fs-3"></i> Continuar com google
             </button>
             <div class="text-center mt-4">
-                <p class="text-black-50">Não possui uma conta?<a href="<?= BASE_URL ?>index.php?route=/register" class="color-dark-blue">
+                <p class="text-black-50">Não possui uma conta?<a href="<?= BASE_URL ?>index.php?route=/Register" class="color-dark-blue">
                         Cadastre-se?</a></p>
             </div>
         </div>

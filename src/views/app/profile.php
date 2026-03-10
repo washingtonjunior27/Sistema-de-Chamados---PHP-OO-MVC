@@ -6,7 +6,7 @@
             <h1 class="fw-bold mb-4">Atualizar</h1>
             <p class="text-black-50 mb-4">Atualize seus dados abaixo</p>
         </div>
-        <form action="<?= BASE_URL ?>index.php?route=/profile" method="POST">
+        <form action="<?= BASE_URL ?>index.php?route=/Profile" method="POST">
 
             <?php if (isset($_SESSION['error'])) { ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -36,7 +36,7 @@
             </div>
             <div class="d-flex gap-2 mt-5 mb-4">
                 <button type="submit" class="btn bg-dark-blue w-100 rounded-5 py-2 text-light">Atualizar</button>
-                <a href="<?= BASE_URL ?>index.php?route=/home" type="submit" class="btn bg-dark w-100 rounded-5 py-2 text-light">Voltar</a>
+                <a href="<?= BASE_URL ?>index.php?route=/Home" type="submit" class="btn bg-dark w-100 rounded-5 py-2 text-light">Voltar</a>
             </div>
         </form>
 

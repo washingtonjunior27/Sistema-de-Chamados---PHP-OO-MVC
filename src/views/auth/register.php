@@ -5,7 +5,7 @@
                 <h1 class="fw-bold mb-4">Cadastro</h1>
                 <p class="text-black-50 mb-4">Crie uma conta para continuar</p>
             </div>
-            <form action="<?= BASE_URL ?>index.php?route=/register" method="POST">
+            <form action="<?= BASE_URL ?>index.php?route=/Register" method="POST">
 
                 <?php if (isset($_SESSION['error'])) { ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -36,7 +36,7 @@
                 <button type="submit" class="btn bg-dark-blue w-100 rounded-5 py-2 text-light">Cadastrar</button>
             </form>
             <div class="text-center mt-4">
-                <p class="text-black-50">Já possui uma conta? <a href="<?= BASE_URL ?>index.php?route=/login" class="color-dark-blue">Faça login aqui</a></p>
+                <p class="text-black-50">Já possui uma conta? <a href="<?= BASE_URL ?>index.php?route=/Login" class="color-dark-blue">Faça login aqui</a></p>
             </div>
         </div>
         <div class="container-left p-5 d-lg-block col-md-6 d-none d-md-block">

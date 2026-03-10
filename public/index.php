@@ -10,29 +10,35 @@ $route = $_GET['route'] ?? "/login";
 $pagesController = new PagesController();
 
 switch ($route) {
-    case "/login":
+    case "/Login":
         $pagesController->LoginPageController();
         break;
-    case "/logout":
+    case "/Logout":
         $pagesController->LogoutPageController();
         break;
-    case "/register":
+    case "/Register":
         $pagesController->RegisterPageController();
         break;
-    case "/home":
+    case "/Home":
         $pagesController->HomePageController();
         break;
-    case "/profile":
+    case "/Profile":
         $pagesController->ProfilePageController();
         break;
-    case "/users":
+    case "/Users":
         $pagesController->UsersPageController();
         break;
-    case "/chamados":
+    case "/Chamados":
         $pagesController->ChamadosPageController();
         break;
-    case "/openChamado":
+    case "/OpenChamado":
         $pagesController->OpenChamadoPageController();
+        break;
+    case "/ViewChamado":
+        $pagesController->ViewChamadoPageController();
+        break;
+    case "/Atendimentos":
+        $pagesController->AtendimentosPageController();
         break;
     default:
         $pagesController->LoginPageController();

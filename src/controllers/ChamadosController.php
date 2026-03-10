@@ -27,6 +27,13 @@ class ChamadosController
         require __DIR__ . "/../views/app/chamados.php";
     }
 
+    public function AtendimentosReadController()
+    {
+        $chamados = $this->chamadoRepository->ReadChamadosRepository();
+        $atendentes = $this->usersRepository->ReadAtendentesRepository();
+        require __DIR__ . "/../views/app/atendimentos.php";
+    }
+
     public function OpenChamadoController()
     {
         date_default_timezone_set('America/Manaus');
@@ -44,13 +51,29 @@ class ChamadosController
 
         if (isset($result['error'])) {
             $_SESSION['error'] = $result['error'];
-            header("location:" . BASE_URL . 'index.php?route=/openChamado');
+            header("location:" . BASE_URL . 'index.php?route=/OpenChamado');
             exit;
         }
 
         $_SESSION['sucess'] = $result['sucess'];
-        header("location: " . BASE_URL . "index.php?route=/chamados");
+        header("location: " . BASE_URL . "index.php?route=/Chamados");
         exit;
+    }
+
+    public function ViewChamadoController()
+    {
+        $action = $_POST['action'];
+        $this->chamado->setId_chamado($_POST['id_chamado']);
+
+        $result = $this->chamadoRepository->TrackChamadoRepository($this->chamado->getId_chamado());
+
+        if ($action == "viewChamadoAtendimentos") {
+            $pageRedirect = "index.php?route=/Atendimentos";
+        } else {
+            $pageRedirect = "index.php?route=/Chamados";
+        }
+
+        require __DIR__ . "/../views/app/viewChamado.php";
     }
 
     public function SelectAtendenteController()
@@ -66,12 +89,29 @@ class ChamadosController
         );
 
         $_SESSION['sucess'] = "Atendente designado para o chamado com sucesso!";
-        header("location: " . BASE_URL . "index.php?route=/chamados");
+        header("location: " . BASE_URL . "index.php?route=/Chamados");
+        exit;
+    }
+
+    public function ResponseChamadoController()
+    {
+        $id_atendente = $_SESSION['user']['id'];
+        $this->chamado->setId_atendente($id_atendente);
+        $this->chamado->setStatus_chamado("Em Atendimento");
+        $this->chamado->setId_chamado($_POST['id_chamado']);
+        $this->chamadoRepository->UpdateAtendenteRepository(
+            $this->chamado->getId_atendente(),
+            $this->chamado->getStatus_chamado(),
+            $this->chamado->getId_chamado()
+        );
+        $_SESSION['sucess'] = "Chamado pego com sucesso!";
+        header("location: " . BASE_URL . "index.php?route=/Atendimentos");
         exit;
     }
 
     public function EndChamadoController()
     {
+        $action = $_POST['action'];
         $this->chamado->setId_chamado($_POST['id_chamado']);
         $this->chamado->setStatus_chamado("Finalizado");
 
@@ -80,8 +120,14 @@ class ChamadosController
             $this->chamado->getId_chamado()
         );
 
+        if ($action === "endChamadoAtendente") {
+            $_SESSION['sucess'] = "Chamado encerrado com sucesso!";
+            header("location: " . BASE_URL . "index.php?route=/Atendimentos");
+            exit;
+        }
+
         $_SESSION['sucess'] = "Chamado encerrado com sucesso!";
-        header("location: " . BASE_URL . "index.php?route=/chamados");
+        header("location: " . BASE_URL . "index.php?route=/Chamados");
         exit;
     }
 
@@ -92,7 +138,7 @@ class ChamadosController
         $this->chamadoRepository->DeleteChamadoRepository($this->chamado->getId_chamado());
 
         $_SESSION['sucess'] = "Chamado excluido com sucesso!";
-        header("location: " . BASE_URL . "index.php?route=/chamados");
+        header("location: " . BASE_URL . "index.php?route=/Chamados");
         exit;
     }
 }
