@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . "/../repositories/UsersRepository.php";
-require_once __DIR__ . "/../models/Users.php";
+namespace App\Services;
+
+use App\Repositories\UsersRepository;
+use App\Models\Users;
 
 class UsersServices
 {

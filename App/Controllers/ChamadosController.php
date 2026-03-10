@@ -1,9 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../models/Chamados.php";
-require_once __DIR__ . "/../services/ChamadosServices.php";
-require_once __DIR__ . "/../repositories/ChamadosRepository.php";
-require_once __DIR__ . "/../repositories/UsersRepository.php";
+namespace App\Controllers;
+
+use App\Models\Chamados;
+use App\Services\ChamadosServices;
+use App\Repositories\ChamadosRepository;
+use App\Repositories\UsersRepository;
 
 class ChamadosController
 {

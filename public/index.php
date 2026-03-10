@@ -2,7 +2,9 @@
 
 define("BASE_URL", "/sistema-de-chamados/public/");
 
-require_once __DIR__ . "/../src/controllers/PagesController.php";
+require_once __DIR__ . "/../vendor/autoload.php";
+
+use App\Controllers\PagesController;
 
 session_start();
 

@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . "/../../config/db.php";
-require_once __DIR__ . "/../models/Users.php";
+namespace App\Repositories;
+
+use App\Config\Connection;
+use App\Models\Users;
+use PDO;
+use PDOException;
 
 class UsersRepository
 {

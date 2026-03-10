@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class Chamados
 {
     private int $id_chamado;

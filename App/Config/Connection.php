@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Config;
+
+use PDO;
+use PDOException;
+
 class Connection
 {
     private $dbHost = "localhost";

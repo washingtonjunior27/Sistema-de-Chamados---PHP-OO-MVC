@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . "/UsersController.php";
-require_once __DIR__ . "/ChamadosController.php";
+namespace App\Controllers;
+
+use App\Controllers\UsersController;
+use App\Controllers\ChamadosController;
 
 class PagesController
 {
