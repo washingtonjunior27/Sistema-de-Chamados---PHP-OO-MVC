@@ -31,7 +31,7 @@
             <thead>
                 <tr>
                     <th scope="col">Ver</th>
-                    <?php if ($_SESSION['user']['role'] === "atendente") { ?>
+                    <?php if ($_SESSION['user']['role'] != "user") { ?>
                         <th scope="col">Atender</th>
                     <?php } ?>
                     <th scope="col">Usuário</th>
@@ -57,21 +57,25 @@
 
                         <tr>
                             <td class="text-center">
-                                <form action="<?= BASE_URL ?>index.php?route=/ViewChamado" method="POST">
-                                    <input type="hidden" name="action" value="viewChamado">
-                                    <input type="hidden" name="id_chamado" value="<?= $chamado['id_chamado']; ?>">
-                                    <button type="submit" class="btn p-0 btn-link text-success">
-                                        <i class="fa-solid fa-eye text-primary fs-4"></i>
-                                    </button>
-                                </form>
+                                <a href="<?= BASE_URL ?>index.php?route=/ViewChamado&id_chamado=<?= $chamado['id_chamado'] ?>&from=Chamados" type="submit" class="btn p-0 btn-link text-success">
+                                    <i class="fa-solid fa-eye text-primary fs-4"></i>
+                                </a>
                             </td>
-                            <?php if ($_SESSION['user']['role'] === "atendente") { ?>
+
+                            <?php if (($_SESSION['user']['role'] != "user" && $chamado['status_chamado'] === "Aberto")
+                                && ($_SESSION['user']['id'] != $chamado['id_user'])
+                            ) { ?>
                                 <td class="text-center">
                                     <button type="button" class="btn p-0 btn-link text-primary" data-bs-toggle="modal" data-bs-target="#responseChamado<?= $chamado['id_chamado']; ?>">
                                         <i class="fa-solid fa-message fs-4"></i>
                                     </button>
                                 </td>
+                            <?php } elseif ($_SESSION['user']['role'] != "user") { ?>
+                                <td class="text-center">
+                                    <i class="fa-solid fa-message text-secondary fs-4"></i>
+                                </td>
                             <?php } ?>
+
                             <td class="chamado-name"><?= $chamado['user_name'] ?></td>
                             <td class="chamado-title"><?= $chamado['title_chamado']; ?></td>
                             <td class="chamado-desc text-justify"><?= $chamado['message_chamado']; ?></td>

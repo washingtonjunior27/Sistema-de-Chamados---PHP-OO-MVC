@@ -4,16 +4,19 @@ namespace App\Controllers;
 
 use App\Controllers\UsersController;
 use App\Controllers\ChamadosController;
+use App\Controllers\RespostasController;
 
 class PagesController
 {
     private $userController;
     private $chamadosController;
+    private $respostasController;
 
     public function __construct()
     {
         $this->userController = new UsersController();
         $this->chamadosController = new ChamadosController();
+        $this->respostasController = new RespostasController();
     }
 
     public function LoginPageController()
@@ -176,9 +179,7 @@ class PagesController
         require __DIR__ . "/../views/layouts/auth/headerLogin.php";
         require __DIR__ . "/../views/layouts/app/header.php";
 
-        if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            $this->chamadosController->ViewChamadoController();
-        }
+        $this->chamadosController->ViewChamadoController();
 
         require __DIR__ . "/../views/layouts/app/footer.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";

@@ -6,6 +6,7 @@ use App\Models\Chamados;
 use App\Services\ChamadosServices;
 use App\Repositories\ChamadosRepository;
 use App\Repositories\UsersRepository;
+use App\Repositories\RespostasRepository;
 
 class ChamadosController
 {
@@ -13,6 +14,7 @@ class ChamadosController
     private $chamadoService;
     private $chamadoRepository;
     private $usersRepository;
+    private $respostaRepository;
 
     public function __construct()
     {
@@ -20,6 +22,7 @@ class ChamadosController
         $this->chamadoService = new ChamadosServices();
         $this->chamadoRepository = new ChamadosRepository();
         $this->usersRepository = new UsersRepository();
+        $this->respostaRepository = new RespostasRepository;
     }
 
     public function ChamadosReadController()
@@ -76,12 +79,62 @@ class ChamadosController
 
     public function ViewChamadoController()
     {
-        $action = $_POST['action'];
-        $this->chamado->setId_chamado($_POST['id_chamado']);
+        $action = $_GET['from'];
+        $id_chamado = $_GET['id_chamado'] ?? 0;
+        $id_user = $_SESSION['user']['id'];
 
-        $result = $this->chamadoRepository->TrackChamadoRepository($this->chamado->getId_chamado());
+        $chamado = $this->chamadoRepository->TrackChamadoRepository($id_chamado);
+        $respostas = $this->respostaRepository->TrackChamadoRespostaRepository($id_chamado);
 
-        if ($action == "viewChamadoAtendimentos") {
+        if (!$id_chamado) {
+            header("Location: " . BASE_URL . "index.php?route=/Home");
+            exit;
+        }
+
+        if (!$chamado) {
+            header("Location: " . BASE_URL . "index.php?route=/Home");
+            exit;
+        }
+
+        $user_id = $_SESSION['user']['id'];
+        $role = $_SESSION['user']['role'];
+
+        $allowed = false;
+
+        if ($role === "admin") {
+            $allowed = true;
+        }
+
+        if ($role === "user" && $chamado['id_user'] == $user_id) {
+            $allowed = true;
+        }
+
+        if ($role === "atendente") {
+
+            // chamado criado por ele
+            if ($chamado['id_user'] == $user_id) {
+                $allowed = true;
+            }
+
+            // chamado atribuído a ele
+            if ($chamado['id_atendente'] == $user_id) {
+                $allowed = true;
+            }
+
+            // chamado aberto sem atendente
+            if ($chamado['status_chamado'] === "Aberto") {
+                $allowed = true;
+            }
+        }
+
+        if (!$allowed) {
+            header("Location: " . BASE_URL . "index.php?route=/Chamados");
+            exit;
+        }
+
+
+
+        if ($action == "Atendimentos") {
             $pageRedirect = "index.php?route=/Atendimentos";
         } else {
             $pageRedirect = "index.php?route=/Chamados";

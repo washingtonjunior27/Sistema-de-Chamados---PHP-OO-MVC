@@ -98,14 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide text-center">
-                    <div class="card text-bg-primary mb-3 rounded-0" style=" min-height: 8rem;">
-                        <div class="card-header fw-semibold">Melhor Atendente</div>
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            <h5 class="card-title fs-5">washington.junior</h5>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

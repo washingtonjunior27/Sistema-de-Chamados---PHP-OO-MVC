@@ -49,13 +49,9 @@
 
                         <tr>
                             <td class="text-center">
-                                <form action="<?= BASE_URL ?>index.php?route=/ViewChamado" method="POST">
-                                    <input type="hidden" name="action" value="viewChamadoAtendimentos">
-                                    <input type="hidden" name="id_chamado" value="<?= $chamado['id_chamado']; ?>">
-                                    <button type="submit" class="btn p-0 btn-link text-success">
-                                        <i class="fa-solid fa-eye text-primary fs-4"></i>
-                                    </button>
-                                </form>
+                                <a href="<?= BASE_URL ?>index.php?route=/ViewChamado&id_chamado=<?= $chamado['id_chamado'] ?>&from=Atendimentos" type="submit" class="btn p-0 btn-link text-success">
+                                    <i class="fa-solid fa-eye text-primary fs-4"></i>
+                                </a>
                             </td>
 
                             <?php if ($chamado['status_chamado'] === "Finalizado") { ?>

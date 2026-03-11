@@ -103,4 +103,18 @@ class ChamadosRepository
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([":id_chamado" => $id_chamado]);
     }
+
+    public function UpdateStatusRepository($status_chamado, $id_atendente, $id_chamado)
+    {
+        $sql = "UPDATE chamados SET status_chamado = :status_chamado, id_atendente = :id_atendente
+        WHERE id_chamado = :id_chamado";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(
+            [
+                ":status_chamado" => $status_chamado,
+                ":id_atendente" => $id_atendente,
+                ":id_chamado" => $id_chamado
+            ]
+        );
+    }
 }

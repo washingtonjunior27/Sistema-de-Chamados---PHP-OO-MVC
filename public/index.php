@@ -5,11 +5,13 @@ define("BASE_URL", "/sistema-de-chamados/public/");
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use App\Controllers\PagesController;
+use App\Controllers\RespostasController;
 
 session_start();
 
 $route = $_GET['route'] ?? "/login";
 $pagesController = new PagesController();
+$respostasController = new RespostasController();
 
 switch ($route) {
     case "/Login":
@@ -38,6 +40,9 @@ switch ($route) {
         break;
     case "/ViewChamado":
         $pagesController->ViewChamadoPageController();
+        break;
+    case "/Respostas":
+        $respostasController->CreateRespostaController();
         break;
     case "/Atendimentos":
         $pagesController->AtendimentosPageController();
