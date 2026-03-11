@@ -37,7 +37,13 @@ class ChamadosController
 
     public function AtendimentosReadController()
     {
-        $chamados = $this->chamadoRepository->ReadChamadosRepository();
+        $search = trim($_GET['search'] ?? "");
+        if ($search) {
+            $chamados = $this->chamadoRepository->SearchChamadoRepository($search);
+        } else {
+            $chamados = $this->chamadoRepository->ReadChamadosRepository();
+        }
+
         $atendentes = $this->usersRepository->ReadAtendentesRepository();
         require __DIR__ . "/../views/app/atendimentos.php";
     }

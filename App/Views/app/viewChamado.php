@@ -21,8 +21,9 @@
         </div>
     </form>
 
+
+    <!-- NOVA RESPOSTA DO USUARIO -->
     <?php if ($result['status_chamado'] != "Finalizado") { ?>
-        <!-- NOVA RESPOSTA DO USUARIO -->
         <form action="<?= BASE_URL ?>index.php?route=/ViewChamado" method="POST">
             <?php if (isset($_SESSION['error'])) { ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">

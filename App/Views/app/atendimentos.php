@@ -19,7 +19,7 @@
 
     <div class="search-form d-flex justify-content-between align-items-center gap-4 mb-4">
         <form class="d-flex flex-fill" method="GET" action="<?= BASE_URL ?>index.php">
-            <input type="hidden" name="route" value="/users">
+            <input type="hidden" name="route" value="/Atendimentos">
             <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
