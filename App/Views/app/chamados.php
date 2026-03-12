@@ -76,15 +76,15 @@
                                 </td>
                             <?php } ?>
 
-                            <td class="chamado-name"><?= $chamado['user_name'] ?></td>
-                            <td class="chamado-title"><?= $chamado['title_chamado']; ?></td>
-                            <td class="chamado-desc text-justify"><?= $chamado['message_chamado']; ?></td>
-                            <td class="chamado-atend"><?= $chamado['status_chamado']; ?></td>
-                            <td class="chamado-atend"><?= $chamado['priority_chamado']; ?></td>
+                            <td class="chamado-name"><?= htmlspecialchars($chamado['user_name']) ?></td>
+                            <td class="chamado-title"><?= htmlspecialchars($chamado['title_chamado']); ?></td>
+                            <td class="chamado-desc text-justify"><?= htmlspecialchars($chamado['message_chamado']); ?></td>
+                            <td class="chamado-atend"><?= htmlspecialchars($chamado['status_chamado']); ?></td>
+                            <td class="chamado-atend"><?= htmlspecialchars($chamado['priority_chamado']); ?></td>
                             <?php if (!$chamado['id_atendente']) { ?>
                                 <td>À definir</td>
                             <?php } else { ?>
-                                <td><?= $chamado['atendente_name'] ?></td>
+                                <td><?= htmlspecialchars($chamado['atendente_name']) ?></td>
                             <?php } ?>
 
                             <!-- AÇÕES -->

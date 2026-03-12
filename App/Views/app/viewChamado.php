@@ -23,13 +23,13 @@
         <div class="mb-3">
             <div class="d-flex justify-content-between">
                 <label for="title_chamado" class="form-label">Titulo</label>
-                <span><?= date('d/m/Y H:i:s', strtotime($chamado['created_at'])) ?></span>
+                <span><?= htmlspecialchars(date('d/m/Y H:i:s', strtotime($chamado['created_at']))) ?></span>
             </div>
-            <input disabled value="<?= $chamado['title_chamado'] ?>" type="text" class="form-control">
+            <input disabled value="<?= htmlspecialchars($chamado['title_chamado']) ?>" type="text" class="form-control">
         </div>
         <div class="mb-3">
             <label for="message_chamado" class="form-label">Descrição</label>
-            <textarea disabled rows="3" class="form-control"><?= $chamado['message_chamado'] ?></textarea>
+            <textarea disabled rows="3" class="form-control"><?= htmlspecialchars($chamado['message_chamado']) ?></textarea>
         </div>
     </form>
 
@@ -44,9 +44,9 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between">
                             <label for="message_chamado" class="form-label">Respondido por <?= $resposta['user_name'] ?></label>
-                            <span><?= date('d/m/Y H:i:s', strtotime($resposta['date_resposta'])) ?></span>
+                            <span><?= htmlspecialchars(date('d/m/Y H:i:s', strtotime($resposta['date_resposta']))) ?></span>
                         </div>
-                        <textarea disabled rows="3" class="form-control"><?= $resposta['message_resposta'] ?></textarea>
+                        <textarea disabled rows="3" class="form-control"><?= htmlspecialchars($resposta['message_resposta']) ?></textarea>
                     </div>
                     </form>
             <?php }
@@ -56,7 +56,7 @@
             <?php if ($chamado['status_chamado'] != "Finalizado") { ?>
                 <form action="<?= BASE_URL ?>index.php?route=/Respostas" method="POST">
                     <input type="hidden" name="id_chamado" value="<?= $chamado['id_chamado']; ?>">
-                    <input type="hidden" name="from" value="<?= $action ?>">
+                    <input type="hidden" name="from" value="<?= htmlspecialchars($action) ?>">
                     <div class="mb-3">
                         <label for="message_chamado" class="form-label">Responder</label>
                         <textarea rows="5" class="form-control" name="message_chamado" placeholder="Responder chamado"></textarea>

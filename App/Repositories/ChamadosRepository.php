@@ -46,6 +46,52 @@ class ChamadosRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function ReadLastChamadosRepositoryAdmin($limit, $offset)
+    {
+        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                ORDER BY c.created_at DESC
+                LIMIT :limit OFFSET :offset";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function ReadLastChamadosRepositoryAtendente($id_user, $limit, $offset)
+    {
+        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                WHERE c.id_user = :id_user OR c.id_atendente = :id_user
+                ORDER BY c.created_at DESC
+                LIMIT :limit OFFSET :offset";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function ReadLastChamadosRepositoryUser($id_user, $limit, $offset)
+    {
+        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                WHERE c.id_user = :id_user
+                ORDER BY c.created_at DESC
+                LIMIT :limit OFFSET :offset";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function SearchChamadoRepository($search)
     {
         $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 

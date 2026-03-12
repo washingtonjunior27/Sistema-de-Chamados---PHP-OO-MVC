@@ -26,7 +26,7 @@
                                         $chamadosEmAberto++;
                                     }
                                 }
-                                echo $chamadosEmAberto;
+                                echo htmlspecialchars_decode($chamadosEmAberto);
                                 ?>
                             </h5>
                         </div>
@@ -47,7 +47,7 @@
                                         $chamadosEmAberto++;
                                     }
                                 }
-                                echo $chamadosEmAberto;
+                                echo htmlspecialchars($chamadosEmAberto);
                                 ?>
                             </h5>
                         </div>
@@ -65,7 +65,7 @@
                                         $activeUsers++;
                                     }
                                 }
-                                echo $activeUsers;
+                                echo htmlspecialchars($activeUsers);
                                 ?>
                             </h5>
                         </div>
@@ -92,7 +92,7 @@
                                         $chamadosHoje++;
                                     }
                                 }
-                                echo $chamadosHoje;
+                                echo htmlspecialchars($chamadosHoje);
                                 ?>
                             </h5>
                         </div>
@@ -120,20 +120,32 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($chamados as $chamado) { ?>
+                <?php
+                $itemChamados = false;
+                if ($chamadosLast) {
+                    foreach ($chamadosLast as $chamado) {
+                        $itemChamados = true; ?>
+                        <tr>
+
+                            <td><?= htmlspecialchars($chamado['user_name']) ?></td>
+                            <td><?= htmlspecialchars($chamado['title_chamado']) ?></td>
+                            <td class="chamado-desc text-justify"><?= htmlspecialchars($chamado['message_chamado']) ?></td>
+                            <td><?= htmlspecialchars($chamado['status_chamado']) ?></td>
+                            <td><?= htmlspecialchars($chamado['priority_chamado']) ?></td>
+
+                            <?php if ($chamado['atendente_name'] === NULL) { ?>
+                                <td>À definir</td>
+                            <?php } else { ?>
+                                <td><?= htmlspecialchars($chamado['atendente_name']) ?></td>
+                            <?php } ?>
+
+                        </tr>
+                <?php }
+                } ?>
+
+                <?php if ($itemChamados === false) { ?>
                     <tr>
-                        <td><?= $chamado['user_name'] ?></td>
-                        <td><?= $chamado['title_chamado'] ?></td>
-                        <td class="chamado-desc text-justify"><?= $chamado['message_chamado'] ?></td>
-                        <td><?= $chamado['status_chamado'] ?></td>
-                        <td><?= $chamado['priority_chamado'] ?></td>
-
-                        <?php if ($chamado['atendente_name'] === NULL) { ?>
-                            <td>À definir</td>
-                        <?php } else { ?>
-                            <td><?= $chamado['atendente_name'] ?></td>
-                        <?php } ?>
-
+                        <td colspan="8" class="text-center">Nenhum chamado para exibir!</td>
                     </tr>
                 <?php } ?>
 

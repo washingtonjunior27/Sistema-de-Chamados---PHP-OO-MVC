@@ -16,9 +16,9 @@
                             <?php
                             foreach ($atendentes as $atendente) {
                                 if ($chamado['id_atendente'] === $atendente['id']) { ?>
-                                    <option value="<?= $atendente['id'] ?>" selected><?= $atendente['name'] ?></option>
+                                    <option value="<?= $atendente['id'] ?>" selected><?= htmlspecialchars($atendente['name']) ?></option>
                                 <?php } else { ?>
-                                    <option value="<?= $atendente['id'] ?>"><?= $atendente['name'] ?></option>
+                                    <option value="<?= $atendente['id'] ?>"><?= htmlspecialchars($atendente['name']) ?></option>
                                 <?php } ?>
                             <?php } ?>
                         </select>

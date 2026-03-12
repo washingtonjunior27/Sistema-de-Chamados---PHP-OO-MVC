@@ -43,17 +43,15 @@
                     foreach ($users as $user) {
                 ?>
                         <tr>
-                            <td><?= $user['id'] ?></td>
-                            <td><?= $user['name'] ?></td>
-                            <td><?= $user['username'] ?></td>
-                            <td><?= $user['email'] ?></td>
-                            <td><?= $user['role'] ?></td>
+                            <td><?= htmlspecialchars($user['id']) ?></td>
+                            <td><?= htmlspecialchars($user['name']) ?></td>
+                            <td><?= htmlspecialchars($user['username']) ?></td>
+                            <td><?= htmlspecialchars($user['email']) ?></td>
+                            <td><?= htmlspecialchars($user['role']) ?></td>
 
 
                             <?php if ($user['status'] == 1) { ?>
                                 <td>Ativo</td>
-
-
 
                                 <!-- DESATIVAR USUARIO - SE FOR ADMIN DESABILITADO -->
                                 <?php if ($user['role'] === "admin") { ?>

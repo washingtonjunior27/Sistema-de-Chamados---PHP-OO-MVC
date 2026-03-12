@@ -13,22 +13,22 @@
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome completo</label>
-                        <input type="text" class="form-control" name="name" placeholder="Digite seu nome completo" value="<?= $user['name']; ?>">
+                        <input type="text" class="form-control" name="name" placeholder="Digite seu nome completo" value="<?= htmlspecialchars($user['name']); ?>">
                     </div>
                     <div class="mb-3">
                         <label for="username" class="form-label">Nome de Usuário</label>
-                        <input type="text" class="form-control" name="username" placeholder="Digite seu nome de usuário (Login)" value="<?= $user['username']; ?>">
+                        <input type="text" class="form-control" name="username" placeholder="Digite seu nome de usuário (Login)" value="<?= htmlspecialchars($user['username']); ?>">
                     </div>
                     <div class="mb-4">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Digite seu email" value="<?= $user['email']; ?>">
+                        <input type="email" class="form-control" name="email" placeholder="Digite seu email" value="<?= htmlspecialchars($user['email']); ?>">
                     </div>
                     <div class="mb-4">
                         <label for="role" class="form-label">Role</label>
                         <select class="form-select" name="role" id="role">
-                            <option value="admin" <?= $user['role'] === "admin" ? "selected" : "" ?>>Admin</option>
-                            <option value="atendente" <?= $user['role'] === "atendente" ? "selected" : "" ?>>Atendente</option>
-                            <option value="user" <?= $user['role'] === "user" ? "selected" : "" ?>>User</option>
+                            <option value="admin" <?= htmlspecialchars($user['role']) === "admin" ? "selected" : "" ?>>Admin</option>
+                            <option value="atendente" <?= htmlspecialchars($user['role']) === "atendente" ? "selected" : "" ?>>Atendente</option>
+                            <option value="user" <?= htmlspecialchars($user['role']) === "user" ? "selected" : "" ?>>User</option>
                         </select>
                     </div>
                     <div class="d-flex gap-2 mt-5 mb-4">

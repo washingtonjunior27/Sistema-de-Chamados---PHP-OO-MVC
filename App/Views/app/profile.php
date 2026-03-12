@@ -17,14 +17,14 @@
             } ?>
 
             <input type="hidden" name="action" value="updateUser">
-            <input type="hidden" name="user_id" value="<?= $dbUser['id'] ?>">
+            <input type="hidden" name="user_id" value="<?= htmlspecialchars($dbUser['id']) ?>">
             <div class="mb-3">
                 <label for="name" class="form-label">Nome completo</label>
-                <input type="text" class="form-control" name="name" placeholder="Digite seu nome completo" value="<?= $dbUser['name']; ?>">
+                <input type="text" class="form-control" name="name" placeholder="Digite seu nome completo" value="<?= htmlspecialchars($dbUser['name']); ?>">
             </div>
             <div class="mb-3">
                 <label for="username" class="form-label">Nome de Usuário</label>
-                <input type="text" class="form-control" name="username" placeholder="Digite seu nome de usuário (Login)" value="<?= $dbUser['username']; ?>">
+                <input type="text" class="form-control" name="username" placeholder="Digite seu nome de usuário (Login)" value="<?= htmlspecialchars($dbUser['username']); ?>">
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Senha</label>
@@ -32,7 +32,7 @@
             </div>
             <div class="mb-4">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" placeholder="Digite seu email" value="<?= $dbUser['email']; ?>">
+                <input type="email" class="form-control" name="email" placeholder="Digite seu email" value="<?= htmlspecialchars($dbUser['email']); ?>">
             </div>
             <div class="d-flex gap-2 mt-5 mb-4">
                 <button type="submit" class="btn bg-dark-blue w-100 rounded-5 py-2 text-light">Atualizar</button>

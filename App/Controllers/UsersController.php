@@ -64,8 +64,16 @@ class UsersController
 
     public function HomeReadController()
     {
+        $id_user = $_SESSION['user']['id'];
         $users = $this->userRepository->ReadUserRepository();
         $chamados = $this->chamadosRepository->ReadChamadosRepository();
+        if ($_SESSION['user']['role'] === "admin") {
+            $chamadosLast = $this->chamadosRepository->ReadLastChamadosRepositoryAdmin(6, 0);
+        } elseif ($_SESSION['user']['role'] === "atendente") {
+            $chamadosLast = $this->chamadosRepository->ReadLastChamadosRepositoryAtendente($id_user, 6, 0);
+        } else {
+            $chamadosLast = $this->chamadosRepository->ReadLastChamadosRepositoryUser($id_user, 6, 0);
+        }
         require __DIR__ . "/../views/app/home.php";
     }
 

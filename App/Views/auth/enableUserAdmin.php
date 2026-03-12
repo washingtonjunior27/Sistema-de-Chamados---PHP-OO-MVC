@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mt-3">Deseja reativar a conta do usuario <?= $user['username'] ?>?</p>
+                <p class="mt-3">Deseja reativar a conta do usuario <?= htmlspecialchars($user['username']) ?>?</p>
             </div>
             <form class="modal-footer" action="<?= BASE_URL ?>index.php?route=/Users" method="POST">
                 <input type="hidden" name="action" value="enableUserAdmin">
