@@ -20,10 +20,14 @@
             <div class="col-12 col-md-4">
                 <ul class="nav justify-content-center justify-content-md-end">
                     <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-light">FAQs</a>
+                        <a href="https://www.linkedin.com/in/washington-junior-bb1540245/" class="nav-link px-2 text-light">
+                            <i class="fa-brands fa-linkedin fs-3"></i>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link px-2 text-light">About</a>
+                        <a href="https://github.com/washingtonjunior27" class="nav-link px-2 text-light">
+                            <i class="fa-brands fa-github fs-3"></i>
+                        </a>
                     </li>
                 </ul>
             </div>

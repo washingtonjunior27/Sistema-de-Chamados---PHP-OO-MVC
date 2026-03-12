@@ -107,6 +107,53 @@ class ChamadosRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function FilterAtendenteRepository()
+    {
+        $sql = "SELECT DISTINCT c.id_atendente, a.username AS atendente_name FROM chamados AS c 
+                INNER JOIN users AS a ON c.id_atendente = a.id
+                WHERE c.id_atendente IS NOT NULL
+                ORDER BY c.created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function SelectFilterAtendenteRepository($atendentes)
+    {
+        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                WHERE c.id_atendente = :atendentes
+                ORDER BY c.created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([":atendentes" => $atendentes]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function SelectFilterStatusRepository($status_chamado)
+    {
+        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                WHERE c.status_chamado = :status_chamado
+                ORDER BY c.created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([":status_chamado" => $status_chamado]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function SelectFilterPriorityRepository($priority_chamado)
+    {
+        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                WHERE c.priority_chamado = :priority_chamado
+                ORDER BY c.created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([":priority_chamado" => $priority_chamado]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function TrackChamadoRepository($id_chamado)
     {
         $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role 

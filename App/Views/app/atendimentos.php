@@ -25,6 +25,37 @@
         </form>
     </div>
 
+    <!-- FILTRO ATENDENTEES -->
+    <div class="d-flex gap-3">
+        <!-- FILTRO STATUS -->
+        <form class="filter-atendentes" method="GET" action="<?= BASE_URL ?>index.php">
+            <input type="hidden" name="route" value="/Atendimentos">
+            <label for="status_chamado" class="form-label">Status</label>
+            <select class="form-select" name="status_chamado" onchange="this.form.submit()">
+                <option value="">Selecionar</option>
+                <?php
+                $statusChamado = $_GET['status_chamado'] ?? ""; ?>
+                <option value="Em atendimento" <?= $statusChamado === "Em atendimento" ? "selected" : "" ?>>Em atendimento</option>
+                <option value="Finalizado" <?= $statusChamado === "Finalizado" ? "selected" : "" ?>>Finalizado</option>
+            </select>
+        </form>
+
+        <!-- FILTRO PRIORIDADE -->
+        <form class="filter-atendentes" method="GET" action="<?= BASE_URL ?>index.php">
+            <input type="hidden" name="route" value="/Atendimentos">
+            <label for="priority_chamado" class="form-label">Prioridade</label>
+            <select class="form-select" name="priority_chamado" onchange="this.form.submit()">
+                <option value="">Selecionar</option>
+                <?php
+                $priorityChamado = $_GET['priority_chamado'] ?? ""; ?>
+                <option value="Urgente" <?= $priorityChamado === "Urgente" ? "selected" : "" ?>>Urgente</option>
+                <option value="Alta" <?= $priorityChamado === "Alta" ? "selected" : "" ?>>Alta</option>
+                <option value="Média" <?= $priorityChamado === "Média" ? "selected" : "" ?>>Média</option>
+                <option value="Baixa" <?= $priorityChamado === "Baixa" ? "selected" : "" ?>>Baixa</option>
+            </select>
+        </form>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-bordered border-black mobile-nowrap align-middle">
             <thead>
@@ -43,7 +74,7 @@
                 <?php
                 $itemChamados = false;
                 foreach ($chamados as $chamado) {
-                    if (($chamado['id_atendente'] === $_SESSION['user']['id'])) {
+                    if (($chamado['id_atendente'] == $_SESSION['user']['id'])) {
                         $itemChamados = true;
                 ?>
 
