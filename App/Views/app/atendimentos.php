@@ -17,42 +17,39 @@
     <?php unset($_SESSION['error']);
     } ?>
 
-    <div class="search-form d-flex justify-content-between align-items-center gap-4 mb-4">
-        <form class="d-flex flex-fill" method="GET" action="<?= BASE_URL ?>index.php">
+    <div class="search-form  d-flex justify-content-between align-items-center gap-4 mb-4">
+        <form class="d-flex flex-fill flex-column gap-3" method="GET" action="<?= BASE_URL ?>index.php">
             <input type="hidden" name="route" value="/Atendimentos">
-            <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
+            <div class="search d-flex">
+                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
 
-    <!-- FILTRO ATENDENTEES -->
-    <div class="d-flex gap-3">
-        <!-- FILTRO STATUS -->
-        <form class="filter-atendentes" method="GET" action="<?= BASE_URL ?>index.php">
-            <input type="hidden" name="route" value="/Atendimentos">
-            <label for="status_chamado" class="form-label">Status</label>
-            <select class="form-select" name="status_chamado" onchange="this.form.submit()">
-                <option value="">Selecionar</option>
-                <?php
-                $statusChamado = $_GET['status_chamado'] ?? ""; ?>
-                <option value="Em atendimento" <?= $statusChamado === "Em atendimento" ? "selected" : "" ?>>Em atendimento</option>
-                <option value="Finalizado" <?= $statusChamado === "Finalizado" ? "selected" : "" ?>>Finalizado</option>
-            </select>
-        </form>
+            <div class="filters d-flex gap-3">
+                <div class="status">
+                    <label for="status_chamado" class="form-label">Status</label>
+                    <select class="form-select" name="status_chamado" onchange="this.form.submit()">
+                        <option value="">Selecionar</option>
+                        <?php
+                        $statusChamado = $_GET['status_chamado'] ?? ""; ?>
+                        <option value="Em atendimento" <?= $statusChamado === "Em atendimento" ? "selected" : "" ?>>Em atendimento</option>
+                        <option value="Finalizado" <?= $statusChamado === "Finalizado" ? "selected" : "" ?>>Finalizado</option>
+                    </select>
+                </div>
 
-        <!-- FILTRO PRIORIDADE -->
-        <form class="filter-atendentes" method="GET" action="<?= BASE_URL ?>index.php">
-            <input type="hidden" name="route" value="/Atendimentos">
-            <label for="priority_chamado" class="form-label">Prioridade</label>
-            <select class="form-select" name="priority_chamado" onchange="this.form.submit()">
-                <option value="">Selecionar</option>
-                <?php
-                $priorityChamado = $_GET['priority_chamado'] ?? ""; ?>
-                <option value="Urgente" <?= $priorityChamado === "Urgente" ? "selected" : "" ?>>Urgente</option>
-                <option value="Alta" <?= $priorityChamado === "Alta" ? "selected" : "" ?>>Alta</option>
-                <option value="Média" <?= $priorityChamado === "Média" ? "selected" : "" ?>>Média</option>
-                <option value="Baixa" <?= $priorityChamado === "Baixa" ? "selected" : "" ?>>Baixa</option>
-            </select>
+                <div class="priority">
+                    <label for="priority_chamado" class="form-label">Prioridade</label>
+                    <select class="form-select" name="priority_chamado" onchange="this.form.submit()">
+                        <option value="">Selecionar</option>
+                        <?php
+                        $priorityChamado = $_GET['priority_chamado'] ?? ""; ?>
+                        <option value="Urgente" <?= $priorityChamado === "Urgente" ? "selected" : "" ?>>Urgente</option>
+                        <option value="Alta" <?= $priorityChamado === "Alta" ? "selected" : "" ?>>Alta</option>
+                        <option value="Média" <?= $priorityChamado === "Média" ? "selected" : "" ?>>Média</option>
+                        <option value="Baixa" <?= $priorityChamado === "Baixa" ? "selected" : "" ?>>Baixa</option>
+                    </select>
+                </div>
+            </div>
         </form>
     </div>
 

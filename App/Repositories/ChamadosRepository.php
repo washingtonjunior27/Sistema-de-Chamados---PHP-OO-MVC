@@ -92,20 +92,41 @@ class ChamadosRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function SearchChamadoRepository($search)
+    public function FiltersChamadosRepository($results)
     {
         $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
                 INNER JOIN users AS u ON c.id_user = u.id
                 LEFT JOIN users AS a ON c.id_atendente = a.id
-                WHERE u.username LIKE :search OR c.title_chamado LIKE :search 
+                WHERE 1=1 ";
+
+        $params = [];
+
+        if (!empty($results['search'])) {
+            $sql .= "AND (u.username LIKE :search OR c.title_chamado LIKE :search 
                         OR c.message_chamado LIKE :search OR c.status_chamado LIKE :search 
-                        OR c.priority_chamado LIKE :search OR a.username LIKE :search
-                ORDER BY c.created_at DESC";
+                        OR c.priority_chamado LIKE :search OR a.username LIKE :search) ";
+            $params[":search"] = "%" . $results['search'] . "%";
+        }
+        if (!empty($results['atendentes'])) {
+            $sql .= "AND (c.id_atendente = :id_atendente) ";
+            $params[":id_atendente"] = $results['atendentes'];
+        }
+        if (!empty($results['status_chamado'])) {
+            $sql .= "AND (c.status_chamado = :status_chamado) ";
+            $params[":status_chamado"] = $results['status_chamado'];
+        }
+        if (!empty($results['priority_chamado'])) {
+            $sql .= "AND (c.priority_chamado = :priority_chamado)";
+            $params[":priority_chamado"] = $results['priority_chamado'];
+        }
+
+        $sql .= " ORDER BY c.created_at DESC";
+
         $stmt = $this->pdo->prepare($sql);
-        $searchResult = "%" . $search . "%";
-        $stmt->execute([":search" => $searchResult]);
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function FilterAtendenteRepository()
     {
@@ -115,42 +136,6 @@ class ChamadosRepository
                 ORDER BY c.created_at DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function SelectFilterAtendenteRepository($atendentes)
-    {
-        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
-                INNER JOIN users AS u ON c.id_user = u.id
-                LEFT JOIN users AS a ON c.id_atendente = a.id
-                WHERE c.id_atendente = :atendentes
-                ORDER BY c.created_at DESC";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([":atendentes" => $atendentes]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function SelectFilterStatusRepository($status_chamado)
-    {
-        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
-                INNER JOIN users AS u ON c.id_user = u.id
-                LEFT JOIN users AS a ON c.id_atendente = a.id
-                WHERE c.status_chamado = :status_chamado
-                ORDER BY c.created_at DESC";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([":status_chamado" => $status_chamado]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function SelectFilterPriorityRepository($priority_chamado)
-    {
-        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
-                INNER JOIN users AS u ON c.id_user = u.id
-                LEFT JOIN users AS a ON c.id_atendente = a.id
-                WHERE c.priority_chamado = :priority_chamado
-                ORDER BY c.created_at DESC";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([":priority_chamado" => $priority_chamado]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

@@ -1,5 +1,5 @@
-<div class="container flex-fill d-flex flex-column justify-content-center gap-4">
-    <h3 class="fs-3 text-center mb-5 mt-3">Chamados</h3>
+<div class="container d-flex flex-column justify-content-center">
+    <h3 class="fs-3 text-center mb-4 mt-4">Chamados</h3>
 
     <?php if (isset($_SESSION['sucess'])) { ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -17,59 +17,54 @@
     <?php unset($_SESSION['error']);
     } ?>
 
-    <div class="search-form d-flex justify-content-between align-items-center gap-4 mb-4">
-        <a href="<?= BASE_URL ?>index.php?route=/OpenChamado" class="btn btn-primary">Abrir Chamado</a>
-        <form class="d-flex flex-fill" method="GET" action="<?= BASE_URL ?>index.php">
+    <form class="d-flex flex-column gap-3 mb-4" method="GET" action="<?= BASE_URL ?>index.php">
+        <div class="d-flex justify-content-between gap-3">
+            <a href="<?= BASE_URL ?>index.php?route=/OpenChamado" class="btn btn-primary">Abrir Chamado</a>
             <input type="hidden" name="route" value="/Chamados">
-            <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
+            <div class="d-flex flex-fill">
+                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="d-flex gap-3">
+            <div class="atendentes">
+                <label for="atendentes" class="form-label">Atendentes</label>
+                <select class="form-select" name="atendentes" onchange="this.form.submit()">
+                    <option value="">Selecionar</option>
+                    <?php
+                    $atendenteChamado = $_GET['atendentes'] ?? "";
+                    foreach ($selectAtendente as $atendente) { ?>
+                        <option value="<?= $atendente['id_atendente'] ?>" <?= $atendenteChamado == $atendente['id_atendente'] ? "selected" : "" ?>><?= $atendente['atendente_name'] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
 
-    <!-- FILTRO ATENDENTEES -->
-    <div class="d-flex gap-3">
-        <form class="filter-atendentes" method="GET" action="<?= BASE_URL ?>index.php">
-            <input type="hidden" name="route" value="/Chamados">
-            <label for="atendentes" class="form-label">Atendentes</label>
-            <select class="form-select" name="atendentes" onchange="this.form.submit()">
-                <option value="">Selecionar</option>
-                <?php
-                $atendenteChamado = $_GET['atendentes'] ?? "";
-                foreach ($selectAtendente as $chamado) { ?>
-                    <option value="<?= $chamado['id_atendente'] ?>" <?= $atendenteChamado == $chamado['id_atendente'] ? "selected" : "" ?>><?= $chamado['atendente_name'] ?></option>
-                <?php } ?>
-            </select>
-        </form>
+            <div class="status">
+                <label for="status_chamado" class="form-label">Status</label>
+                <select class="form-select" name="status_chamado" onchange="this.form.submit()">
+                    <option value="">Selecionar</option>
+                    <?php
+                    $statusChamado = $_GET['status_chamado'] ?? ""; ?>
+                    <option value="Aberto" <?= $statusChamado === "Aberto" ? "selected" : "" ?>>Aberto</option>
+                    <option value="Em atendimento" <?= $statusChamado === "Em atendimento" ? "selected" : "" ?>>Em atendimento</option>
+                    <option value="Finalizado" <?= $statusChamado === "Finalizado" ? "selected" : "" ?>>Finalizado</option>
+                </select>
+            </div>
 
-        <!-- FILTRO STATUS -->
-        <form class="filter-atendentes" method="GET" action="<?= BASE_URL ?>index.php">
-            <input type="hidden" name="route" value="/Chamados">
-            <label for="status_chamado" class="form-label">Status</label>
-            <select class="form-select" name="status_chamado" onchange="this.form.submit()">
-                <option value="">Selecionar</option>
-                <?php
-                $statusChamado = $_GET['status_chamado'] ?? ""; ?>
-                <option value="Aberto" <?= $statusChamado === "Aberto" ? "selected" : "" ?>>Aberto</option>
-                <option value="Em atendimento" <?= $statusChamado === "Em atendimento" ? "selected" : "" ?>>Em atendimento</option>
-                <option value="Finalizado" <?= $statusChamado === "Finalizado" ? "selected" : "" ?>>Finalizado</option>
-            </select>
-        </form>
-
-        <!-- FILTRO PRIORIDADE -->
-        <form class="filter-atendentes" method="GET" action="<?= BASE_URL ?>index.php">
-            <input type="hidden" name="route" value="/Chamados">
-            <label for="priority_chamado" class="form-label">Prioridade</label>
-            <select class="form-select" name="priority_chamado" onchange="this.form.submit()">
-                <option value="">Selecionar</option>
-                <?php
-                $priorityChamado = $_GET['priority_chamado'] ?? ""; ?>
-                <option value="Urgente" <?= $priorityChamado === "Urgente" ? "selected" : "" ?>>Urgente</option>
-                <option value="Alta" <?= $priorityChamado === "Alta" ? "selected" : "" ?>>Alta</option>
-                <option value="Média" <?= $priorityChamado === "Média" ? "selected" : "" ?>>Média</option>
-                <option value="Baixa" <?= $priorityChamado === "Baixa" ? "selected" : "" ?>>Baixa</option>
-            </select>
-        </form>
-    </div>
+            <div class="priority">
+                <label for="priority_chamado" class="form-label">Prioridade</label>
+                <select class="form-select" name="priority_chamado" onchange="this.form.submit()">
+                    <option value="">Selecionar</option>
+                    <?php
+                    $priorityChamado = $_GET['priority_chamado'] ?? ""; ?>
+                    <option value="Urgente" <?= $priorityChamado === "Urgente" ? "selected" : "" ?>>Urgente</option>
+                    <option value="Alta" <?= $priorityChamado === "Alta" ? "selected" : "" ?>>Alta</option>
+                    <option value="Média" <?= $priorityChamado === "Média" ? "selected" : "" ?>>Média</option>
+                    <option value="Baixa" <?= $priorityChamado === "Baixa" ? "selected" : "" ?>>Baixa</option>
+                </select>
+            </div>
+        </div>
+    </form>
 
     <div class="table-responsive">
         <table class="table table-bordered border-black mobile-nowrap align-middle">

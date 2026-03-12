@@ -27,21 +27,14 @@ class ChamadosController
 
     public function ChamadosReadController()
     {
-        $search = trim($_GET['search'] ?? "");
-        $atendentes = $_GET['atendentes'] ?? 0;
-        $status_chamado = trim($_GET['status_chamado'] ?? "");
-        $priority_chamado = trim($_GET['priority_chamado'] ?? "");
-        if ($search) {
-            $chamados = $this->chamadoRepository->SearchChamadoRepository($search);
-        } elseif ($atendentes) {
-            $chamados = $this->chamadoRepository->SelectFilterAtendenteRepository($atendentes);
-        } elseif ($status_chamado) {
-            $chamados = $this->chamadoRepository->SelectFilterStatusRepository($status_chamado);
-        } elseif ($priority_chamado) {
-            $chamados = $this->chamadoRepository->SelectFilterPriorityRepository($priority_chamado);
-        } else {
-            $chamados = $this->chamadoRepository->ReadChamadosRepository();
-        }
+        $results = [
+            "search" => trim($_GET['search'] ?? ""),
+            "atendentes" => $_GET['atendentes'] ?? 0,
+            "status_chamado" => trim($_GET['status_chamado'] ?? ""),
+            "priority_chamado" => trim($_GET['priority_chamado'] ?? "")
+        ];
+
+        $chamados = $this->chamadoRepository->FiltersChamadosRepository($results);
 
         $selectAtendente = $this->chamadoRepository->FilterAtendenteRepository();
 
@@ -50,19 +43,13 @@ class ChamadosController
 
     public function AtendimentosReadController()
     {
-        $search = trim($_GET['search'] ?? "");
-        $status_chamado = trim($_GET['status_chamado'] ?? "");
-        $priority_chamado = trim($_GET['priority_chamado'] ?? "");
+        $results = [
+            "search" => trim($_GET['search'] ?? ""),
+            "status_chamado" => trim($_GET['status_chamado'] ?? ""),
+            "priority_chamado" => $priority_chamado = trim($_GET['priority_chamado'] ?? "")
+        ];
 
-        if ($search) {
-            $chamados = $this->chamadoRepository->SearchChamadoRepository($search);
-        } elseif ($status_chamado) {
-            $chamados = $this->chamadoRepository->SelectFilterStatusRepository($status_chamado);
-        } elseif ($priority_chamado) {
-            $chamados = $this->chamadoRepository->SelectFilterPriorityRepository($priority_chamado);
-        } else {
-            $chamados = $this->chamadoRepository->ReadChamadosRepository();
-        }
+        $chamados = $this->chamadoRepository->FiltersChamadosRepository($results);
 
         $selectAtendentes = $this->usersRepository->ReadAtendentesRepository();
         require __DIR__ . "/../views/app/atendimentos.php";
