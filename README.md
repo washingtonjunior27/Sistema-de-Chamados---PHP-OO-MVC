@@ -52,19 +52,21 @@ Processo de cadastro e login com validações de campos obrigatórios e verifica
 Recuperação de Senha: Envio de e-mail com token de segurança e formulário de reset com validações de integridade.
 
 <p align="center">
-<img src="public/Assets/screenshots/1.png" width="45%" title="Cadastro">
-<img src="public/Assets/screenshots/2.png" width="45%" title="Login">
-<img src="public/Assets/screenshots/30.png" width="45%" title="Recuperar Senha">
+<img src="public/assets/screenshots/1.png" width="30%" title="Cadastro">
+<img src="public/assets/screenshots/2.png" width="30%" title="Login">
+<img src="public/assets/screenshots/30.png" width="30%" title="Recuperar Senha">
 </p>
 
 2. Dashboards e Paginação
-Painéis que adaptam as estatísticas conforme o nível de acesso do usuário logado. HomePage com ultimos 6 chamados registrados e listagens de usuários e chamados nas paginas Atendimentos, Usuarios e Chamados com paginação dinâmica.
+Painéis que adaptam as estatísticas conforme o nível de acesso do usuário logado. HomePage com os últimos 6 chamados registrados e listagens com paginação dinâmica.
 
 <p align="center">
-<img src="public/Assets/img/screenshots/3.png" width="90%" title="Home Admin">
-<img src="public/Assets/img/screenshots/4.png" width="90%" title="Usuarios">
-<img src="public/Assets/img/screenshots/10.png" width="90%" title="Chamados">
-<img src="public/Assets/img/screenshots/18.png" width="90%" title="Atendimentos">
+<img src="public/assets/screenshots/3.png" width="45%" title="Home Admin">
+<img src="public/assets/screenshots/4.png" width="45%" title="Usuários">
+</p>
+<p align="center">
+<img src="public/assets/screenshots/10.png" width="45%" title="Chamados">
+<img src="public/assets/screenshots/18.png" width="45%" title="Atendimentos">
 </p>
 
 3. Interação e Chat de Chamados
@@ -72,26 +74,18 @@ Visibilidade Baseada em Role: Interface de chat estilo "bolhas" (Usuário à esq
 
 Automação de Status: O chamado muda para "Em atendimento" automaticamente na primeira interação do suporte.
 
-Encerramento: Ao finalizar o ticket, o formulário de resposta é bloqueado para novas edições.
+Encerramento: Ao finalizar o ticket, o formulário de resposta é bloqueado.
 
 <p align="center">
-<img src="public/Assets/img/screenshots/21.png" width="45%" title="Chat de Atendimento">
-<img src="public/Assets/img/screenshots/24.png" width="45%" title="Chamado Encerrado">
+<img src="public/assets/screenshots/21.png" width="45%" title="Chat de Atendimento">
+<img src="public/assets/screenshots/24.png" width="45%" title="Chamado Encerrado">
 </p>
 
 4. Filtros Avançados de Busca
-O sistema permite realizar filtragens complexas e combinadas para localizar chamados de forma eficiente.
-
-Busca por Atendente.
-
-Filtro por Status (Aberto, Em atendimento, Finalizado).
-
-Filtro por Prioridade (Urgente, Alta, Média, Baixa).
-
-Busca textual dinâmica.
+O sistema permite realizar filtragens complexas e combinadas (Atendente, Status, Prioridade e Busca Textual) para localizar chamados de forma eficiente.
 
 <p align="center">
-<img src="public/Assets/img/screenshots/15.png" width="90%" title="Filtros Combinados">
+<img src="public/assets/screenshots/15.png" width="90%" title="Filtros Combinados">
 </p>
 
 5. Gestão de Perfil e Usuários
@@ -100,8 +94,8 @@ Profile: Usuários podem editar nome, e-mail, login, senha e desativar a própri
 Soft Delete: O Admin pode desativar e reativar usuários sem excluir os registros do histórico.
 
 <p align="center">
-<img src="public/Assets/img/screenshots/36.png" width="45%" title="Perfil do Usuário">
-<img src="public/Assets/img/screenshots/9.png" width="45%" title="Gerenciamento de Usuários">
+<img src="public/assets/screenshots/36.png" width="45%" title="Perfil do Usuário">
+<img src="public/assets/screenshots/9.png" width="45%" title="Gerenciamento de Usuários">
 </p>
 
 🛠️ Como Instalar e Rodar
