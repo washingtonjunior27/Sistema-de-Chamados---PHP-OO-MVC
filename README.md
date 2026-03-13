@@ -43,6 +43,102 @@ O sistema gerencia permissões e visibilidade de dados através de três papéis
 │   ├── Services       # Regras de negócio, validações e integrações (Mailtrap)
 │   └── Views          # Telas (app), Modais (auth) e Layouts (header/footer)
 ├── Public
+
+📸 Demonstração das Funcionalidades
+1. Autenticação e Segurança
+Processo de cadastro e login com validações de campos obrigatórios e verificação de duplicidade de dados.
+
+Recuperação de Senha: Envio de e-mail com token de segurança e formulário de reset com validações de integridade.
+
+<p align="center">
+<img src="./Public/Assets/img/screenshots/1 - Tela de cadastro.png" width="45%" title="Cadastro">
+<img src="./Public/Assets/img/screenshots/2 - Tela de Login.png" width="45%" title="Login">
+</p>
+
+2. Dashboards e Paginação
+Painéis que adaptam as estatísticas conforme o nível de acesso do usuário logado. Todas as listagens de usuários e chamados contam com paginação dinâmica.
+
+<p align="center">
+<img src="./Public/Assets/img/screenshots/3 - Home Admin.png" width="90%" title="Home Admin">
+</p>
+
+3. Interação e Chat de Chamados
+Visibilidade Baseada em Role: Interface de chat estilo "bolhas" (Usuário à esquerda, Atendente à direita).
+
+Automação de Status: O chamado muda para "Em atendimento" automaticamente na primeira interação do suporte.
+
+Encerramento: Ao finalizar o ticket, o formulário de resposta é bloqueado para novas edições.
+
+<p align="center">
+<img src="./Public/Assets/img/screenshots/21 - Chamado Conversa Atendente.png" width="45%" title="Chat de Atendimento">
+<img src="./Public/Assets/img/screenshots/24 - Chamado Finalizado.png" width="45%" title="Chamado Encerrado">
+</p>
+
+4. Filtros Avançados de Busca
+O sistema permite realizar filtragens complexas e combinadas para localizar chamados de forma eficiente.
+
+Busca por Atendente.
+
+Filtro por Status (Aberto, Em atendimento, Finalizado).
+
+Filtro por Prioridade (Urgente, Alta, Média, Baixa).
+
+Busca textual dinâmica.
+
+<p align="center">
+<img src="./Public/Assets/img/screenshots/15 - Multiplos Filtros Chamados.png" width="90%" title="Filtros Combinados">
+</p>
+
+5. Gestão de Perfil e Usuários
+Profile: Usuários podem editar nome, e-mail, login, senha e desativar a própria conta.
+
+Soft Delete: O Admin pode desativar e reativar usuários sem excluir os registros do histórico.
+
+<p align="center">
+<img src="./Public/Assets/img/screenshots/36 - Profile.png" width="45%" title="Perfil do Usuário">
+<img src="./Public/Assets/img/screenshots/9 - Reativar.png" width="45%" title="Gerenciamento de Usuários">
+</p>
+
+🛠️ Como Instalar e Rodar
+Pré-requisitos
+PHP 8.x ou superior.
+
+MySQL/MariaDB.
+
+Composer instalado.
+
+Passo a Passo
+Clone o projeto:
+
+Bash
+
+git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+Instale as dependências:
+
+Bash
+
+composer install
+Configuração do Ambiente:
+
+Renomeie o arquivo .env.example para .env.
+
+Insira suas credenciais do Banco de Dados.
+
+Configure os dados do SMTP do Mailtrap nas variáveis correspondentes.
+
+Banco de Dados:
+
+Crie um banco de dados MySQL e execute os comandos de criação de tabelas (conforme as entidades em App/Models).
+
+Servidor Web:
+
+Configure seu servidor (Apache/Nginx) para apontar para a pasta Public.
+
+Certifique-se de que o mod_rewrite esteja habilitado para processar as rotas amigáveis.
+
+Nota: Este projeto foi desenvolvido para fins didáticos e portfólio pessoal.
+
+Desenvolvido por Washington Junior - 2026
 │   ├── Assets         # CSS personalizado, Scripts JS e Imagens
 │   └── index.php      # Front Controller (Ponto de entrada do sistema)
 ├── Vendor             # Dependências gerenciadas pelo Composer
