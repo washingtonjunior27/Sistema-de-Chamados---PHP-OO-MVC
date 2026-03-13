@@ -43,6 +43,7 @@ O sistema gerencia permissões e visibilidade de dados através de três papéis
 │   ├── Services       # Regras de negócio, validações e integrações (Mailtrap)
 │   └── Views          # Telas (app), Modais (auth) e Layouts (header/footer)
 ├── Public
+```
 
 📸 Demonstração das Funcionalidades
 1. Autenticação e Segurança
@@ -51,15 +52,19 @@ Processo de cadastro e login com validações de campos obrigatórios e verifica
 Recuperação de Senha: Envio de e-mail com token de segurança e formulário de reset com validações de integridade.
 
 <p align="center">
-<img src="./Public/Assets/img/screenshots/1 - Tela de cadastro.png" width="45%" title="Cadastro">
-<img src="./Public/Assets/img/screenshots/2 - Tela de Login.png" width="45%" title="Login">
+<img src="./Public/Assets/screenshots/1.png" width="45%" title="Cadastro">
+<img src="./Public/Assets/screenshots/2.png" width="45%" title="Login">
+<img src="./Public/Assets/screenshots/30.png" width="45%" title="Recuperar Senha">
 </p>
 
 2. Dashboards e Paginação
-Painéis que adaptam as estatísticas conforme o nível de acesso do usuário logado. Todas as listagens de usuários e chamados contam com paginação dinâmica.
+Painéis que adaptam as estatísticas conforme o nível de acesso do usuário logado. HomePage com ultimos 6 chamados registrados e listagens de usuários e chamados nas paginas Atendimentos, Usuarios e Chamados com paginação dinâmica.
 
 <p align="center">
-<img src="./Public/Assets/img/screenshots/3 - Home Admin.png" width="90%" title="Home Admin">
+<img src="./Public/Assets/img/screenshots/3.png" width="90%" title="Home Admin">
+<img src="./Public/Assets/img/screenshots/4.png" width="90%" title="Usuarios">
+<img src="./Public/Assets/img/screenshots/10.png" width="90%" title="Chamados">
+<img src="./Public/Assets/img/screenshots/18.png" width="90%" title="Atendimentos">
 </p>
 
 3. Interação e Chat de Chamados
@@ -70,8 +75,8 @@ Automação de Status: O chamado muda para "Em atendimento" automaticamente na p
 Encerramento: Ao finalizar o ticket, o formulário de resposta é bloqueado para novas edições.
 
 <p align="center">
-<img src="./Public/Assets/img/screenshots/21 - Chamado Conversa Atendente.png" width="45%" title="Chat de Atendimento">
-<img src="./Public/Assets/img/screenshots/24 - Chamado Finalizado.png" width="45%" title="Chamado Encerrado">
+<img src="./Public/Assets/img/screenshots/21.png" width="45%" title="Chat de Atendimento">
+<img src="./Public/Assets/img/screenshots/24.png" width="45%" title="Chamado Encerrado">
 </p>
 
 4. Filtros Avançados de Busca
@@ -86,7 +91,7 @@ Filtro por Prioridade (Urgente, Alta, Média, Baixa).
 Busca textual dinâmica.
 
 <p align="center">
-<img src="./Public/Assets/img/screenshots/15 - Multiplos Filtros Chamados.png" width="90%" title="Filtros Combinados">
+<img src="./Public/Assets/img/screenshots/15.png" width="90%" title="Filtros Combinados">
 </p>
 
 5. Gestão de Perfil e Usuários
@@ -95,8 +100,8 @@ Profile: Usuários podem editar nome, e-mail, login, senha e desativar a própri
 Soft Delete: O Admin pode desativar e reativar usuários sem excluir os registros do histórico.
 
 <p align="center">
-<img src="./Public/Assets/img/screenshots/36 - Profile.png" width="45%" title="Perfil do Usuário">
-<img src="./Public/Assets/img/screenshots/9 - Reativar.png" width="45%" title="Gerenciamento de Usuários">
+<img src="./Public/Assets/img/screenshots/36.png" width="45%" title="Perfil do Usuário">
+<img src="./Public/Assets/img/screenshots/9.png" width="45%" title="Gerenciamento de Usuários">
 </p>
 
 🛠️ Como Instalar e Rodar
@@ -120,7 +125,6 @@ Bash
 composer install
 Configuração do Ambiente:
 
-Renomeie o arquivo .env.example para .env.
 
 Insira suas credenciais do Banco de Dados.
 
