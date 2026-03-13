@@ -34,13 +34,64 @@ class UsersRepository
         ]);
     }
 
-    // SQL PARA BUSCAR TODOS OS USUARIOS
-    public function ReadUserRepository()
+    public function ReadUserRepositoryWithoutLimit()
     {
         $sql = "SELECT * FROM users";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // SQL PARA BUSCAR TODOS OS USUARIOS
+    public function ReadUserRepository($search, $limit, $offset)
+    {
+        $sql = "SELECT *, 
+                CASE
+                    WHEN status = 1 THEN 'Ativo'
+                    ELSE 'Desativado'
+                END AS status_text
+                FROM users";
+
+        if (!empty($search)) {
+            $sql .= " WHERE (name LIKE :search OR username LIKE :search 
+                OR email LIKE :search OR role LIKE :search OR CASE WHEN status = 1 THEN 'Ativo' ELSE 'Desativado' END LIKE :search)";
+        }
+
+        $sql .= " LIMIT :limit OFFSET :offset";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        if (!empty($search)) {
+            $searchValue = "%" . $search . "%";
+            $stmt->bindValue(":search", $searchValue);
+        }
+
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function CountUserRepository($search)
+    {
+        $sql = "SELECT COUNT(*), CASE
+                    WHEN status = 1 THEN 'Ativo'
+                    ELSE 'Desativado'
+                END AS status_text FROM users";
+
+        if (!empty($search)) {
+            $sql .= " WHERE (name LIKE :search OR username LIKE :search 
+                OR email LIKE :search OR role LIKE :search OR CASE WHEN status = 1 THEN 'Ativo' ELSE 'Desativado' END LIKE :search)";
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+
+        if (!empty($search)) {
+            $searchValue = "%" . $search . "%";
+            $stmt->bindValue(":search", $searchValue);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchColumn();
     }
 
     // SQL PARA BUSCAR APENAS OS ATENDENTES

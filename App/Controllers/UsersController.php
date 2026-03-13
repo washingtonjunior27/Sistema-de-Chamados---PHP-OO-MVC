@@ -51,29 +51,25 @@ class UsersController
     public function ReadUserController()
     {
         $search = trim($_GET['search'] ?? "");
-        // ARMAZENA DADOS DO BANCO DE DADOS COM REPOSITORY
-
-        if ($search) {
-            $users = $this->userRepository->SearchUserRepository($search);
-        } else {
-            $users = $this->userRepository->ReadUserRepository();
-        }
+        $page = $_GET['page'] ?? 1;
+        $limit = 6;
+        $offset = ($page - 1) * $limit;
+        $users = $this->userRepository->ReadUserRepository($search, $limit, $offset);
+        $countUsers = $this->userRepository->CountUserRepository($search);
+        $totalUsers = ceil($countUsers / $limit);
 
         require __DIR__ . "/../views/app/users.php";
     }
 
     public function HomeReadController()
     {
+        $role_user = $_SESSION['user']['role'];
         $id_user = $_SESSION['user']['id'];
-        $users = $this->userRepository->ReadUserRepository();
+        $users = $this->userRepository->ReadUserRepositoryWithoutLimit();
         $chamados = $this->chamadosRepository->ReadChamadosRepository();
-        if ($_SESSION['user']['role'] === "admin") {
-            $chamadosLast = $this->chamadosRepository->ReadLastChamadosRepositoryAdmin(6, 0);
-        } elseif ($_SESSION['user']['role'] === "atendente") {
-            $chamadosLast = $this->chamadosRepository->ReadLastChamadosRepositoryAtendente($id_user, 6, 0);
-        } else {
-            $chamadosLast = $this->chamadosRepository->ReadLastChamadosRepositoryUser($id_user, 6, 0);
-        }
+
+        $chamadosLast = $this->chamadosRepository->ReadLastChamados($role_user, $id_user, 6, 0);
+
         require __DIR__ . "/../views/app/home.php";
     }
 

@@ -27,16 +27,31 @@ class ChamadosController
 
     public function ChamadosReadController()
     {
+        $id_user = $_SESSION['user']['id'];
         $results = [
             "search" => trim($_GET['search'] ?? ""),
             "atendentes" => $_GET['atendentes'] ?? 0,
             "status_chamado" => trim($_GET['status_chamado'] ?? ""),
-            "priority_chamado" => trim($_GET['priority_chamado'] ?? "")
+            "priority_chamado" => trim($_GET['priority_chamado'] ?? ""),
+            "id_user" => $id_user
         ];
 
-        $chamados = $this->chamadoRepository->FiltersChamadosRepository($results);
+        if ($_SESSION['user']['role'] === "atendente") {
+            $results["user_role"] = "atendente";
+        }
+        if ($_SESSION['user']['role'] === "user") {
+            $results["user_role"] = "user";
+        }
 
-        $selectAtendente = $this->chamadoRepository->FilterAtendenteRepository();
+        $page = $_GET['page'] ?? 1;
+        $limit = 6;
+        $offset = ($page - 1) * $limit;
+
+        $chamados = $this->chamadoRepository->FiltersChamadosRepository($results, $limit, $offset);
+        $countChamados = $this->chamadoRepository->CountChamadosRepository($results);
+        $totalPages = ceil($countChamados / $limit);
+
+        $selectAtendente = $this->chamadoRepository->FilterAtendenteRepository($id_user);
 
         require __DIR__ . "/../views/app/chamados.php";
     }
@@ -46,10 +61,17 @@ class ChamadosController
         $results = [
             "search" => trim($_GET['search'] ?? ""),
             "status_chamado" => trim($_GET['status_chamado'] ?? ""),
-            "priority_chamado" => $priority_chamado = trim($_GET['priority_chamado'] ?? "")
+            "priority_chamado" => trim($_GET['priority_chamado'] ?? ""),
+            "id_atendente" => $_SESSION['user']['id']
         ];
 
-        $chamados = $this->chamadoRepository->FiltersChamadosRepository($results);
+        $page = $_GET['page'] ?? 1;
+        $limit = 5;
+        $offset = ($page - 1) * $limit;
+
+        $chamados = $this->chamadoRepository->FiltersChamadosRepository($results, $limit, $offset);
+        $countChamados = $this->chamadoRepository->CountChamadosRepository($results);
+        $totalPages = ceil($countChamados / $limit);
 
         $selectAtendentes = $this->usersRepository->ReadAtendentesRepository();
         require __DIR__ . "/../views/app/atendimentos.php";

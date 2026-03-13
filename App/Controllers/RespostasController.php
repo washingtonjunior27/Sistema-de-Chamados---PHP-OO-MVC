@@ -24,16 +24,18 @@ class RespostasController
         date_default_timezone_set('America/Manaus');
 
         $id_person = $_SESSION['user']['id'];
+        $id_chamado = $_POST['id_chamado'];
+        $chamado = $this->chamadoRepository->TrackChamadoRepository($id_chamado);
+        $creator_id = $chamado['id_user'];
+
         $from = $_POST['from'] ?? 'chamados';
 
-        $this->resposta->setMessage_resposta(trim($_POST['message_chamado']) ?? "");
-        $this->resposta->setDate_resposta(date('Y/m/d H:i:s'));
+        $this->resposta->setMessage_resposta(trim($_POST['message_chamado'] ?? ""));
+        $this->resposta->setDate_resposta(date('Y-m-d H:i:s'));
         $this->resposta->setId_user($id_person);
-        $this->resposta->setId_chamado($_POST['id_chamado']);
+        $this->resposta->setId_chamado($id_chamado);
 
         $resultService = $this->respostaService->CreateRespostaService($this->resposta);
-
-
 
         if (isset($resultService['error'])) {
             $_SESSION['error'] = $resultService['error'];
@@ -41,7 +43,7 @@ class RespostasController
             exit;
         }
 
-        if ($_SESSION['user']['role'] != "user") {
+        if (($_SESSION['user']['role'] != "user") && ($creator_id != $id_person)) {
             $this->chamadoRepository->UpdateStatusRepository("Em atendimento", $id_person, $this->resposta->getId_chamado());
         }
 

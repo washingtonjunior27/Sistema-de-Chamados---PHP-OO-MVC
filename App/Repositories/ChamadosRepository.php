@@ -46,53 +46,34 @@ class ChamadosRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function ReadLastChamadosRepositoryAdmin($limit, $offset)
+    public function ReadLastChamados($role_user, $id_user, $limit, $offset)
     {
         $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
                 INNER JOIN users AS u ON c.id_user = u.id
                 LEFT JOIN users AS a ON c.id_atendente = a.id
-                ORDER BY c.created_at DESC
-                LIMIT :limit OFFSET :offset";
+                WHERE 1=1";
+
+        if ($role_user === "atendente") {
+            $sql .= " AND (c.id_user = :id_user OR c.id_atendente = :id_user)";
+        }
+        if ($role_user === "user") {
+            $sql .= " AND (c.id_user = :id_user)";
+        }
+
+        $sql .= " ORDER BY c.created_at DESC LIMIT :limit OFFSET :offset";
         $stmt = $this->pdo->prepare($sql);
+
+        if ($role_user != "admin") {
+            $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
+        }
+
         $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
         $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function ReadLastChamadosRepositoryAtendente($id_user, $limit, $offset)
-    {
-        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
-                INNER JOIN users AS u ON c.id_user = u.id
-                LEFT JOIN users AS a ON c.id_atendente = a.id
-                WHERE c.id_user = :id_user OR c.id_atendente = :id_user
-                ORDER BY c.created_at DESC
-                LIMIT :limit OFFSET :offset";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
-        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
-        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function ReadLastChamadosRepositoryUser($id_user, $limit, $offset)
-    {
-        $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
-                INNER JOIN users AS u ON c.id_user = u.id
-                LEFT JOIN users AS a ON c.id_atendente = a.id
-                WHERE c.id_user = :id_user
-                ORDER BY c.created_at DESC
-                LIMIT :limit OFFSET :offset";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":id_user", $id_user, PDO::PARAM_INT);
-        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
-        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function FiltersChamadosRepository($results)
+    public function FiltersChamadosRepository($results, $limit, $offset)
     {
         $sql = "SELECT c.*, u.username AS user_name, a.username AS atendente_name, u.role AS user_role FROM chamados AS c 
                 INNER JOIN users AS u ON c.id_user = u.id
@@ -101,6 +82,19 @@ class ChamadosRepository
 
         $params = [];
 
+        if ((!empty($results['user_role'])) && ($results['user_role'] === "atendente")) {
+            $sql .= "AND (c.status_chamado = 'Aberto' OR c.id_user = :id_user)";
+            $params[':id_user'] = $results['id_user'];
+        }
+        if ((!empty($results['user_role'])) && ($results['user_role'] === "user")) {
+            $sql .= "AND (c.id_user = :id_user)";
+            $params[':id_user'] = $results['id_user'];
+        }
+
+        if (!empty($results['id_atendente'])) {
+            $sql .= "AND (c.id_atendente = :id_atendente) ";
+            $params[':id_atendente'] = $results['id_atendente'];
+        }
         if (!empty($results['search'])) {
             $sql .= "AND (u.username LIKE :search OR c.title_chamado LIKE :search 
                         OR c.message_chamado LIKE :search OR c.status_chamado LIKE :search 
@@ -120,22 +114,75 @@ class ChamadosRepository
             $params[":priority_chamado"] = $results['priority_chamado'];
         }
 
-        $sql .= " ORDER BY c.created_at DESC";
+        $sql .= " ORDER BY c.created_at DESC LIMIT :limit OFFSET :offset";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
+
+        foreach ($params as $param => $value) {
+            $stmt->bindValue($param, $value);
+        }
+
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function CountChamadosRepository($results)
+    {
+        $sql = "SELECT COUNT(*) FROM chamados AS c 
+                INNER JOIN users AS u ON c.id_user = u.id
+                LEFT JOIN users AS a ON c.id_atendente = a.id
+                WHERE 1=1 ";
 
-    public function FilterAtendenteRepository()
+        $params = [];
+
+        if ((!empty($results['user_role'])) && ($results['user_role'] === "atendente")) {
+            $sql .= "AND (c.status_chamado = 'Aberto' OR c.id_user = :id_user)";
+            $params[':id_user'] = $results['id_user'];
+        }
+        if ((!empty($results['user_role'])) && ($results['user_role'] === "user")) {
+            $sql .= "AND (c.id_user = :id_user)";
+            $params[':id_user'] = $results['id_user'];
+        }
+
+        if (!empty($results['id_atendente'])) {
+            $sql .= "AND (c.id_atendente = :id_atendente) ";
+            $params[':id_atendente'] = $results['id_atendente'];
+        }
+        if (!empty($results['search'])) {
+            $sql .= "AND (u.username LIKE :search OR c.title_chamado LIKE :search 
+                        OR c.message_chamado LIKE :search OR c.status_chamado LIKE :search 
+                        OR c.priority_chamado LIKE :search OR a.username LIKE :search) ";
+            $params[":search"] = "%" . $results['search'] . "%";
+        }
+        if (!empty($results['atendentes'])) {
+            $sql .= "AND (c.id_atendente = :id_atendente) ";
+            $params[":id_atendente"] = $results['atendentes'];
+        }
+        if (!empty($results['status_chamado'])) {
+            $sql .= "AND (c.status_chamado = :status_chamado) ";
+            $params[":status_chamado"] = $results['status_chamado'];
+        }
+        if (!empty($results['priority_chamado'])) {
+            $sql .= "AND (c.priority_chamado = :priority_chamado)";
+            $params[":priority_chamado"] = $results['priority_chamado'];
+        }
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
+    }
+
+
+    public function FilterAtendenteRepository($id_user)
     {
         $sql = "SELECT DISTINCT c.id_atendente, a.username AS atendente_name FROM chamados AS c 
                 INNER JOIN users AS a ON c.id_atendente = a.id
-                WHERE c.id_atendente IS NOT NULL
+                WHERE c.id_atendente IS NOT NULL AND c.id_atendente != :id_user
                 ORDER BY c.created_at DESC";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
+        $stmt->execute([':id_user' => $id_user]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
