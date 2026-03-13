@@ -14,11 +14,12 @@
                         <label for="role" class="form-label">Atendente</label>
                         <select class="form-select" name="atendente_chamado" id="role">
                             <?php
-                            foreach ($atendentes as $atendente) {
-                                if ($chamado['id_atendente'] === $atendente['id']) { ?>
-                                    <option value="<?= $atendente['id'] ?>" selected><?= htmlspecialchars($atendente['name']) ?></option>
+
+                            foreach ($selectAtendente as $atendente) {
+                                if ($chamado['id_atendente'] === $atendente['id_atendente']) { ?>
+                                    <option value="<?= $atendente['id_atendente'] ?>" selected><?= htmlspecialchars($atendente['atendente_name']) ?></option>
                                 <?php } else { ?>
-                                    <option value="<?= $atendente['id'] ?>"><?= htmlspecialchars($atendente['name']) ?></option>
+                                    <option value="<?= $atendente['id_atendente'] ?>"><?= htmlspecialchars($atendente['atendente_name']) ?></option>
                                 <?php } ?>
                             <?php } ?>
                         </select>

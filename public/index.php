@@ -1,11 +1,16 @@
 <?php
 
+use Dotenv\Dotenv;
+
 define("BASE_URL", "/sistema-de-chamados/public/");
 
 require_once __DIR__ . "/../vendor/autoload.php";
 
 use App\Controllers\PagesController;
 use App\Controllers\RespostasController;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
+$dotenv->load();
 
 session_start();
 
@@ -46,6 +51,12 @@ switch ($route) {
         break;
     case "/Atendimentos":
         $pagesController->AtendimentosPageController();
+        break;
+    case "/ForgotPassword":
+        $pagesController->ForgotPasswordPageController();
+        break;
+    case "/ResetPassword":
+        $pagesController->ResetPasswordPageController();
         break;
     default:
         $pagesController->LoginPageController();

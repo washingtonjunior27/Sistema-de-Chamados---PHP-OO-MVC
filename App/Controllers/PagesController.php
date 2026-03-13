@@ -4,19 +4,22 @@ namespace App\Controllers;
 
 use App\Controllers\UsersController;
 use App\Controllers\ChamadosController;
-use App\Controllers\RespostasController;
+use App\Controllers\ForgotPasswordController;
+use App\Repositories\ForgotPasswordRepository;
 
 class PagesController
 {
     private $userController;
     private $chamadosController;
-    private $respostasController;
+    private $forgotPasswordController;
+    private $forgotPasswordRepository;
 
     public function __construct()
     {
         $this->userController = new UsersController();
         $this->chamadosController = new ChamadosController();
-        $this->respostasController = new RespostasController();
+        $this->forgotPasswordController = new ForgotPasswordController();
+        $this->forgotPasswordRepository = new ForgotPasswordRepository();
     }
 
     public function LoginPageController()
@@ -26,7 +29,52 @@ class PagesController
         }
 
         require __DIR__ . "/../views/layouts/auth/headerLogin.php";
-        require __DIR__ . "/../views/auth/login.php";
+        require __DIR__ . "/../views/app/login.php";
+        require __DIR__ . "/../views/layouts/auth/footerLogin.php";
+    }
+
+    public function ForgotPasswordPageController()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $this->forgotPasswordController->CreateForgotPasswordController();
+        }
+
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../Views/app/forgotPassword.php";
+        require __DIR__ . "/../views/layouts/auth/footerLogin.php";
+    }
+    public function ResetPasswordPageController()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $this->forgotPasswordController->CreateResetPasswordController();
+            return; // Interrompe para não carregar a view abaixo
+        }
+
+        $token = $_GET['token'] ?? "";
+
+        if (!$token) {
+            $_SESSION['error'] = "Token Invalido!";
+            header("location: " . BASE_URL . "index.php?route=/Login");
+            exit;
+        }
+
+        $tokenHash = hash("sha256", $token);
+
+        $tokenData = $this->forgotPasswordRepository->FindTokenRepository($tokenHash);
+
+        if (!$tokenData) {
+            $_SESSION['error'] = "Token Invalido!";
+            header("location: " . BASE_URL . "index.php?route=/Login");
+            exit;
+        }
+
+        if (strtotime($tokenData['date_expire']) < time()) {
+            $_SESSION['error'] = "Token Expirado!";
+            header("location: " . BASE_URL . "index.php?route=/Login");
+            exit;
+        }
+        require __DIR__ . "/../views/layouts/auth/headerLogin.php";
+        require __DIR__ . "/../views/app/resetPassword.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";
     }
 
@@ -44,7 +92,7 @@ class PagesController
         }
 
         require __DIR__ . "/../views/layouts/auth/headerLogin.php";
-        require __DIR__ . "/../views/auth/register.php";
+        require __DIR__ . "/../views/app/register.php";
         require __DIR__ . "/../views/layouts/auth/footerLogin.php";
     }
 

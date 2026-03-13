@@ -162,4 +162,14 @@ class UsersRepository
         $stmt->execute([":{$column}" => $data]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function UpdateUserRepositoryByEmail($passwordHash, $tokenData)
+    {
+        $sql = "UPDATE users SET password = :password WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ":password" => $passwordHash,
+            ":email" => $tokenData
+        ]);
+    }
 }

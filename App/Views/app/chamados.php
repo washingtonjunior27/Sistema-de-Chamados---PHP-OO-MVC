@@ -136,6 +136,7 @@
 
                         <?php if ($_SESSION['user']['role'] === "admin") {
                             if ($chamado['status_chamado'] != "Finalizado") {
+                                // DESIGNAR ATENDENTE
                                 if (!$chamado['id_atendente']) { ?>
                                     <td class="text-center">
                                         <button type="button" class="btn p-0 btn-link text-success" data-bs-toggle="modal" data-bs-target="#selectAtendente<?= $chamado['id_chamado']; ?>">

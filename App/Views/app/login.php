@@ -35,15 +35,10 @@
                     <input type="password" class="form-control" name="password" placeholder="Digite sua senha">
                 </div>
                 <div class="mb-3 d-flex align-items-end justify-content-end">
-                    <a href="#" class="color-dark-blue">Esqueceu sua senha?</a>
+                    <a href="<?= BASE_URL ?>index.php?route=/ForgotPassword" class="color-dark-blue">Esqueceu sua senha?</a>
                 </div>
                 <button type="submit" class="btn bg-dark-blue w-100 rounded-5 py-2 text-light">Entrar</button>
             </form>
-            <h4 id="login-separate" class="d-flex align-items-center justify-content-center gap-2 my-4">OU</h4>
-            <button type="submit"
-                class="btn bg-dark-blue w-100 rounded-5 py-2 text-light d-flex align-items-center justify-content-center gap-2">
-                <i class="fa-brands fa-google fs-3"></i> Continuar com google
-            </button>
             <div class="text-center mt-4">
                 <p class="text-black-50">Não possui uma conta?<a href="<?= BASE_URL ?>index.php?route=/Register" class="color-dark-blue">
                         Cadastre-se?</a></p>
