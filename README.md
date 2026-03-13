@@ -32,6 +32,19 @@ O sistema gerencia permissões e visibilidade de dados através de três papéis
 
 ---
 
+## Features
+
+- **Autenticação com sessões**
+- **Recuperação de senha por email**
+- **Sistema de tickets**
+- **Chat entre usuário e atendente**
+- **Dashboard por role**
+- **Filtros avançados**
+- **Paginação**
+- **Soft delete de usuários**
+
+---
+
 ## 📂 Estrutura de Diretórios
 
 ```text
@@ -126,7 +139,7 @@ Configure os dados do SMTP do Mailtrap nas variáveis correspondentes.
 
 Banco de Dados:
 
-Crie um banco de dados MySQL e execute os comandos de criação de tabelas (conforme as entidades em App/Models).
+Importe o arquivo chamados.sql.
 
 Servidor Web:
 
