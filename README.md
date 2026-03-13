@@ -137,6 +137,8 @@ Certifique-se de que o mod_rewrite esteja habilitado para processar as rotas ami
 Nota: Este projeto foi desenvolvido para fins didáticos e portfólio pessoal.
 
 Desenvolvido por Washington Junior - 2026
+
+```text
 │   ├── Assets         # CSS personalizado, Scripts JS e Imagens
 │   └── index.php      # Front Controller (Ponto de entrada do sistema)
 ├── Vendor             # Dependências gerenciadas pelo Composer
